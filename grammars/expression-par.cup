@@ -1,0 +1,35 @@
+package expression_par;
+import java_cup.runtime.*;
+import java.io.FileReader;
+import exampletree.*;
+
+parser code {:
+public static void main(String[] args){
+try {
+	parser parser = new parser(new ExpressionLexer(new FileReader(args[0])));
+    parser.parse();
+} catch (Exception e) { e.printStackTrace(); }
+}
+:};
+
+/* Terminals (tokens returned by the scanner). */
+terminal            PLUS, TIMES, NEWLINE;
+terminal Integer    NUMBER;
+
+/* Non terminals */
+non terminal            expr_list, expr_part;
+non terminal Expr		expr;
+non terminal Term		term;
+
+/* The grammar */
+expr_list ::= expr_part
+            | expr_part expr_list
+            ;
+expr_part ::= expr:e NEWLINE {: System.out.println(e); :}
+            ;
+expr      ::= expr:e PLUS term:t {: RESULT = new Add(e, t); :}
+            | term:t {: RESULT = t; :}
+            ;
+term	  ::= term:t TIMES NUMBER:n {: RESULT = new Mult(t, new Num(n)); :}
+            | NUMBER:n {: RESULT = new Num(n); :}
+	        ;

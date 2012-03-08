@@ -1,0 +1,53 @@
+package expression_eval;
+import java_cup.runtime.*;
+import java.io.ByteArrayInputStream;
+
+parser code {:
+public static void main(String[] args){
+	ByteArrayInputStream input = new ByteArrayInputStream(args[0].getBytes());
+
+	parser parser = new parser(new ExpressionLexer(input));
+	try {
+	    parser.parse();
+	} catch (Exception e) { e.printStackTrace(); }
+}
+:};
+
+scan with {: return getScanner().next_token(); :};
+
+/* Terminals (tokens returned by the scanner). */
+terminal           SEMI, PLUS, MINUS, TIMES, DIVIDE;
+terminal           LPAREN, RPAREN;
+terminal Integer   NUMBER;
+
+/* Non-terminals */
+non terminal            expr_list, expr_part;
+non terminal Integer    expr;
+
+/* Precedences */
+precedence left PLUS, MINUS;
+precedence left TIMES, DIVIDE;
+
+/* The grammar */
+expr_list ::= expr_list expr_part 
+	      |   expr_part;
+expr_part ::= expr:e SEMI {: System.out.println("= " + e); :} 
+	      ;
+expr      ::= expr:e1 PLUS expr:e2    
+	      {: RESULT = new Integer(e1.intValue() + e2.intValue()); :} 
+	      | 
+              expr:e1 MINUS expr:e2    
+              {: RESULT = new Integer(e1.intValue() - e2.intValue()); :} 
+	      | 
+              expr:e1 TIMES expr:e2 
+	      {: RESULT = new Integer(e1.intValue() * e2.intValue()); :} 
+	      | 
+              expr:e1 DIVIDE expr:e2 
+	      {: RESULT = new Integer(e1.intValue() / e2.intValue()); :} 
+	      | 
+              NUMBER:n                 
+	      {: RESULT = n; :} 
+	      | 
+              LPAREN expr:e RPAREN     
+	      {: RESULT = e; :} 
+	      ;

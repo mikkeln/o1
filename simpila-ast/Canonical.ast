@@ -1,0 +1,115 @@
+(PROGRAM
+    (CLASS_DECL (NAME Complex)
+        (VAR_DECL (TYPE float) (NAME Real))
+        (VAR_DECL (TYPE float) (NAME Imag))
+    )
+
+    (PROC_DECL (TYPE void) (NAME Swap)
+        (PARAM_DECL ref (TYPE int) (NAME a))
+        (PARAM_DECL ref (TYPE int) (NAME b))
+
+        (VAR_DECL (TYPE int) (NAME tmp))
+
+        (ASSIGN_STMT
+            (NAME tmp)
+            (NAME a)
+        )
+        (ASSIGN_STMT
+            (NAME a)
+            (NAME b)
+        )
+        (ASSIGN_STMT
+            (NAME b)
+            (NAME tmp)
+        )
+    )
+
+    (PROC_DECL (TYPE Complex) (NAME Add)
+        (PARAM_DECL (TYPE Complex) (NAME a))
+        (PARAM_DECL (TYPE Complex) (NAME b))
+
+        (VAR_DECL (TYPE Complex) (NAME retval))
+
+        (ASSIGN_STMT
+            (NAME retval)
+            (NEW (TYPE Complex))
+        )
+        (ASSIGN_STMT
+            ( . (NAME retval) (NAME Real))
+            (ARIT_OP +
+                ( . (NAME a) (NAME Real))
+                ( . (NAME b) (NAME Real))
+            )
+        )
+        (ASSIGN_STMT
+            ( . (NAME retval) (NAME Imag))
+            (ARIT_OP +
+                ( . (NAME a) (NAME Imag))
+                ( . (NAME b) (NAME Imag))
+            )
+        )
+        (RETURN_STMT (NAME retval))
+    )
+
+    (PROC_DECL (TYPE int) (NAME Max)
+        (PARAM_DECL (TYPE int) (NAME a))
+        (PARAM_DECL (TYPE int) (NAME b))
+
+
+        (IF_STMT (REL_OP >
+            (NAME a)
+            (NAME b)
+        )
+            (
+                (RETURN_STMT (NAME a))
+            )
+        )
+        (IF_STMT (NOT (REL_OP >
+            (NAME a)
+            (ARIT_OP +
+                (NAME b)
+                (NAME b)
+            )
+        ))
+            (
+                (RETURN_STMT (ARIT_OP +
+                    (NAME a)
+                    (NAME b)
+                ))
+            )
+        )
+        (RETURN_STMT (NAME b))
+    )
+
+    (PROC_DECL (TYPE void) (NAME Main)
+
+        (PROC_DECL (TYPE float) (NAME Square)
+            (PARAM_DECL (TYPE float) (NAME val))
+
+
+            (RETURN_STMT (ARIT_OP **
+                (NAME val)
+                (FLOAT_LITERAL 2.0)
+            ))
+        )
+        (VAR_DECL (TYPE float) (NAME num))
+
+        (ASSIGN_STMT
+            (NAME num)
+            (FLOAT_LITERAL 6.480740)
+        )
+        (CALL_STMT (NAME printfloat)
+            (ACTUAL_PARAM (NAME num))
+        )
+        (CALL_STMT (NAME printstr)
+            (ACTUAL_PARAM (STRING_LITERAL " squared is "))
+        )
+        (CALL_STMT (NAME printfloat)
+            (ACTUAL_PARAM (CALL_STMT (NAME Square)
+                    (ACTUAL_PARAM (NAME num))
+                ))
+        )
+        (RETURN_STMT)
+    )
+
+)

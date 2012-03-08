@@ -1,0 +1,25 @@
+Har lagt til en fil, input-examples/test-eval.txt som gjør det mulig å
+kjøre example-par eksempelet.
+
+Hovedprosjektet er også oppdatert slik med et minimalt kjørbart
+subsett.
+
+Kompiler og kjør med:
+$ ant compile
+$ ant run
+
+Se også
+
+simpila-code/
+        Canoncial.d -  en ferdig parser skal klare denne filen
+
+        simple.d     -  denne filen leses ved ant run.
+                        gjør den mer og mer lik Canoncial.d ved
+                        progresjon.
+
+simpila-ast/
+        Canoncial.ast  -  Hva dere vil ende opp med
+        simple.ast     -  Resultatet av siste kjøring av simple.d
+
+
+                        
