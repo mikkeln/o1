@@ -26,11 +26,35 @@ Identifier = [:jletter:] [:jletterdigit:]*
 <YYINITIAL>{
         {WhiteSpace}                    {}
         "class"                         { return symbol(sym.CLASS); }
-        "{"			        { return symbol(sym.LBRACK); }
-        "}"				{ return symbol(sym.RBRACK); }
+        "var"                           { return symbol(sym.VARIABLE); }
+        "ref"                           { return symbol(sym.REFERENCE); }
+        "null"                          { return symbol(sym.NULL); }
+        "true"                          { return symbol(sym.TRUE); }
+        "false"                         { return symbol(sym.FALSE); }
+        "&&"			                      { return symbol(sym.AND); }
+        "||"				                    { return symbol(sym.OR); }
+        "not"			                      { return symbol(sym.NOT); }
+        "{"			                        { return symbol(sym.LBRACK); }
+        "}"				                      { return symbol(sym.RBRACK); }
+        "<"			                        { return symbol(sym.LCHEV); }
+        ">"				                      { return symbol(sym.RCHEV); }
+        "<="			                      { return symbol(sym.LCHEVEQ); }
+        ">="				                    { return symbol(sym.RCHEVEQ); }
+        "="				                      { return symbol(sym.EQUALS); }
+        "<>"				                    { return symbol(sym.NEQUAL); }
+        "."                             { return symbol(sym.DOT); }
+        "+"                             { return symbol(sym.PLUS); }
+        "-"                             { return symbol(sym.MINUS); }
+        "*"                             { return symbol(sym.TIMES); }
+        "/"                             { return symbol(sym.DIVIDE); }
         "("                             { return symbol(sym.LPAR); }
         ")"                             { return symbol(sym.RPAR); }
         ";"                             { return symbol(sym.SEMI); }
+        "new"                           { return symbol(sym.NEW); }
+        "float"                         { return symbol(sym.FLOAT); }
+        "int"                           { return symbol(sym.INT); }
+        "string"                        { return symbol(sym.STRING); }
+        "bool"                          { return symbol(sym.BOOL); }
         {Identifier}                    { return symbol(sym.ID,yytext()); }
 }
 

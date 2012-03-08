@@ -8,35 +8,89 @@ parser code {:
 :};
 
 /* Terminals */
-terminal                        CLASS;
-terminal 			LBRACK, RBRACK;
-terminal 			LPAR, RPAR;
-terminal                        SEMI, RETURN;
+terminal                        CLASS; 
+terminal                        REFERENCE;
 terminal                        PROCEDURE;
+terminal                        VARIABLE;
+terminal                        FLOAT, INT, STRING, BOOL;
+terminal 			                  LBRACK, RBRACK;
+terminal                        LCHEV, LCHEVEQ, RCHEV, RCHEVEQ;
+terminal                        EQUALS, NEQUAL;
+terminal                        AND, OR, NOT;
+terminal                        TRUE, FALSE;
+terminal                        NULL;
+terminal                        DOT;
+terminal                        NEW;
+terminal                        PLUS, MINUS, TIMES, DIVIDE, EXPO;
+terminal 			                  LPAR, RPAR;
+terminal                        SEMI, RETURN;
+
 terminal String                 ID;
 terminal String                 STRING_LITERAL;
+terminal Integer                INT_LITERAL;
+terminal Float                  FLOAT_LITERAL;
 
 /* Non terminals */
-non terminal Program	        program;
+non terminal Program	          program;
 non terminal List<ClassDecl>    decl_list;
+non terminal                    var_decl;
 non terminal ClassDecl          class_decl, decl;
+non terminal                    param_decl;
+
+non terminal                    exp;
+non terminal                    var;
+non terminal                    log_op;
+non terminal                    rel_op;
+non terminal                    arit_op;
+non terminal                    literal;
+non terminal                    actual_param;
+non terminal                    type;
+
 
 
 /* The grammar */
-program			::= decl_list:dl
+program			            ::= decl_list:dl
                         {: RESULT = new Program(dl); :} 
-				  ;
+				                ;
 
 decl_list               ::= decl:d {: List<ClassDecl> l = new LinkedList<ClassDecl>();
-                                      l.add(d);
-                                      RESULT = l; :} 
-                        |   decl_list:dl decl:d 
-                            {: dl.add(d); RESULT = dl; :};
+                          l.add(d);
+                          RESULT = l; :} 
+                        | decl_list:dl decl:d 
+                        {: dl.add(d); RESULT = dl; :};
 
 decl                    ::= class_decl:sd {: RESULT = sd; :}
-                                  ;
-                                  
-class_decl		::= CLASS ID:name LBRACK RBRACK
-                        {: RESULT = new ClassDecl(name); :}
-				  ;
+                        ;
+
+var_decl                ::= VARIABLE ID:type ID:name SEMI;
+
+class_decl		          ::= CLASS ID:name LBRACK RBRACK
+                          {: RESULT = new ClassDecl(name); :}
+				                ;
+
+param_decl              ::= REFERENCE ID:type ID:name;
+
+exp                     ::= exp log_op exp
+                            | NOT exp
+                            | exp rel_op exp
+                            | exp arit_op exp
+                            | LPAR exp RPAR
+                            | literal
+                            /* | call_stmt */
+                            | NEW ID:name
+                            | var
+                        ;
+
+var                     ::= ID:name | exp DOT ID:name;
+
+log_op                  ::= AND | OR;
+rel_op                  ::= LCHEV | LCHEVEQ | RCHEV | RCHEVEQ | EQUALS | NEQUAL;
+arit_op                 ::= PLUS | MINUS | TIMES | DIVIDE | EXPO;
+
+literal                 ::= FLOAT_LITERAL | INT_LITERAL | STRING_LITERAL 
+                            | TRUE | FALSE | NULL;
+
+actual_param            ::= REFERENCE var | exp;
+
+type                    ::= FLOAT | INT | STRING | BOOL | ID:name;
 
