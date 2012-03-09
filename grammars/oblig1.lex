@@ -31,7 +31,7 @@ Identifier = [:jletter:] [:jletterdigit:]*
         "null"                          { return symbol(sym.NULL); }
         "true"                          { return symbol(sym.TRUE); }
         "false"                         { return symbol(sym.FALSE); }
-        "&&"			                      { return symbol(sym.AND); }
+        "&&"			                { return symbol(sym.AND); }
         "||"				                    { return symbol(sym.OR); }
         "not"			                      { return symbol(sym.NOT); }
         "{"			                        { return symbol(sym.LBRACK); }
@@ -47,6 +47,7 @@ Identifier = [:jletter:] [:jletterdigit:]*
         "-"                             { return symbol(sym.MINUS); }
         "*"                             { return symbol(sym.TIMES); }
         "/"                             { return symbol(sym.DIVIDE); }
+	"**"                            { return symbol(sym.EXPO); }
         "("                             { return symbol(sym.LPAR); }
         ")"                             { return symbol(sym.RPAR); }
         ";"                             { return symbol(sym.SEMI); }
@@ -55,6 +56,12 @@ Identifier = [:jletter:] [:jletterdigit:]*
         "int"                           { return symbol(sym.INT); }
         "string"                        { return symbol(sym.STRING); }
         "bool"                          { return symbol(sym.BOOL); }
+	"if"                            { return symbol(sym.IF); }
+	"then"                          { return symbol(sym.THEN); }
+	"else"                          { return symbol(sym.ELSE); }
+	"while"                         { return symbol(sym.WHILE); }
+	"do"                            { return symbol(sym.DO); }
+
         {Identifier}                    { return symbol(sym.ID,yytext()); }
 }
 
