@@ -12,7 +12,7 @@ terminal                        CLASS;
 terminal                        REFERENCE;
 terminal                        PROCEDURE;
 terminal                        VARIABLE;
-terminal                        FLOAT, INT, STRING, BOOL;
+terminal String                 FLOAT, INT, STRING, BOOL;
 terminal 			                  LBRACK, RBRACK;
 terminal                        LCHEV, LCHEVEQ, RCHEV, RCHEVEQ;
 terminal                        EQUALS, NEQUAL;
@@ -27,14 +27,17 @@ terminal                        SEMI, RETURN;
 
 terminal String                 ID;
 terminal String                 STRING_LITERAL;
-terminal Integer                INT_LITERAL;
-terminal Float                  FLOAT_LITERAL;
+terminal String                 INT_LITERAL;
+terminal String                 FLOAT_LITERAL;
+terminal String                 BOOL_LITERAL;
 
 /* Non terminals */
 non terminal Program	          program;
-non terminal List<ClassDecl>    decl_list;
-non terminal                    var_decl;
-non terminal ClassDecl          class_decl, decl;
+non terminal Decl               decl;
+non terminal List<Decl>         decl_list;
+non terminal VarDecl            var_decl;
+non terminal List<Decl>         var_list;
+non terminal ClassDecl          class_decl;
 non terminal                    param_decl;
 
 non terminal                    exp;
@@ -44,31 +47,39 @@ non terminal                    rel_op;
 non terminal                    arit_op;
 non terminal                    literal;
 non terminal                    actual_param;
-non terminal                    type;
+non terminal String             type;
 
 
 
 /* The grammar */
 program			            ::= decl_list:dl
-                        {: RESULT = new Program(dl); :} 
+                          {: RESULT = new Program(dl); :} 
 				                ;
 
-decl_list               ::= decl:d {: List<ClassDecl> l = new LinkedList<ClassDecl>();
+decl_list               ::= decl:d {: List<Decl> l = new LinkedList<Decl>();
                           l.add(d);
                           RESULT = l; :} 
                         | decl_list:dl decl:d 
-                        {: dl.add(d); RESULT = dl; :};
-
-decl                    ::= class_decl:sd {: RESULT = sd; :}
+                          {: dl.add(d); RESULT = dl; :}
                         ;
 
-var_decl                ::= VARIABLE ID:type ID:name SEMI;
+decl                    ::= class_decl:sd {: RESULT = sd; :} 
+                            | var_decl:vd {: RESULT = vd; :}
+                        ;
+                        
 
-class_decl		          ::= CLASS ID:name LBRACK RBRACK
-                          {: RESULT = new ClassDecl(name); :}
+var_decl                ::= VARIABLE type:t ID:name SEMI
+                          {: RESULT = new VarDecl(name, t); :} 
+                        ;
+
+var_list                ::= decl_list:l {: RESULT = l; :}
+                            | {: RESULT = null; :}; 
+                        
+class_decl		          ::= CLASS ID:name LBRACK var_list:v RBRACK
+                          {: RESULT = new ClassDecl(name, v); :}
 				                ;
 
-param_decl              ::= REFERENCE ID:type ID:name;
+param_decl              ::= REFERENCE type:t ID:name;
 
 exp                     ::= exp log_op exp
                             | NOT exp
@@ -92,5 +103,10 @@ literal                 ::= FLOAT_LITERAL | INT_LITERAL | STRING_LITERAL
 
 actual_param            ::= REFERENCE var | exp;
 
-type                    ::= FLOAT | INT | STRING | BOOL | ID:name;
+type                    ::= FLOAT     {: RESULT = "float";  :}
+                            | INT     {: RESULT = "int";    :}
+                            | STRING  {: RESULT = "string"; :} 
+                            | BOOL    {: RESULT = "bool";   :}
+                            | ID:name {: RESULT = name;     :}
+                        ;
 

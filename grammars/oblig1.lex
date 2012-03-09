@@ -58,4 +58,4 @@ Identifier = [:jletter:] [:jletterdigit:]*
         {Identifier}                    { return symbol(sym.ID,yytext()); }
 }
 
-.     		                { throw new Error("Illegal character '" + yytext() + "' at line " + yyline + ", column " + yycolumn + "."); }
+. { throw new Error("Illegal character '" + yytext() + "' at line " + yyline + ", column " + yycolumn + "."); }

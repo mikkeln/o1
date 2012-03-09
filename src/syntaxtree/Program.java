@@ -3,18 +3,24 @@ import java.util.List;
 
 public class Program {
 
-    List<ClassDecl> decls;
+  List<Decl> decls;
 
-    public Program(List<ClassDecl> decls) {
-        this.decls = decls;
-    }
+  public Program(List<Decl> decls) {
+    this.decls = decls;
+  }
 
-    public String printAst(){
-        StringBuilder sb = new StringBuilder();
-        for (ClassDecl decl : decls) {
-            sb.append(decl.printAst());
-            sb.append("\n");
-        }
-        return sb.toString();
+  public String printAst(){
+    StringBuilder sb = new StringBuilder();
+    sb.append("(Program\n");
+    for (Decl decl : decls) {
+      if (decl == null) { 
+        sb.append("  NULL ERROR IN Program\n");
+        continue; 
+      }
+      
+      sb.append(decl.printAst(2) + "\n");
     }
+    sb.append(")");
+    return sb.toString();
+  }
 }
