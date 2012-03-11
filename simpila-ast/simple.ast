@@ -1,0 +1,8 @@
+(Program
+  (CLASS_DECL (NAME test)
+    (VAR_DECL (TYPE int) (NAME mordi))
+  )
+
+  (VAR_DECL (TYPE float) (NAME mordi2))
+
+)
