@@ -41,8 +41,13 @@ non terminal Decl               decl;
 non terminal List<Decl>         decl_list;
 non terminal VarDecl            var_decl;
 non terminal List<Decl>         var_list;
+non terminal ProcDecl           proc_decl; 
+non terminal String             proc_decl_type;
+non terminal List<Decl>         proc_decl_decls;
 non terminal ClassDecl          class_decl;
-non terminal                    param_decl;
+non terminal ParamDecl          param_decl;
+non terminal List<Decl>         param_list;
+non terminal Boolean            param_ref;
 
 non terminal                    exp, exp1, exp2, exp3, exp4, exp5, exp6, exp7;
 non terminal                    var;
@@ -53,8 +58,6 @@ non terminal                    literal;
 non terminal                    actual_param;
 non terminal String             type;
 
-non terminal                    proc_decl, proc_decl_type;
-
 
 /* The grammar */
 program			            ::= decl_list:dl
@@ -62,14 +65,15 @@ program			            ::= decl_list:dl
 				                ;
 
 decl_list               ::= decl:d {: List<Decl> l = new LinkedList<Decl>();
-                          l.add(d);
-                          RESULT = l; :} 
-                        | decl_list:dl decl:d 
-                          {: dl.add(d); RESULT = dl; :}
+                            l.add(d);
+                            RESULT = l; :} 
+                          | decl_list:dl decl:d 
+                            {: dl.add(d); RESULT = dl; :}
                         ;
 
-decl                    ::= class_decl:sd {: RESULT = sd; :} 
-                            | var_decl:vd {: RESULT = vd; :}
+decl                    ::= class_decl:sd {: RESULT = sd; :}
+                          | proc_decl:pd {:RESULT = pd; :} 
+                          | var_decl:vd {: RESULT = vd; :}
                         ;
                         
 
@@ -78,40 +82,59 @@ var_decl                ::= VARIABLE type:t ID:name SEMI
                         ;
 
 var_list                ::= decl_list:l {: RESULT = l; :}
-                            | {: RESULT = null; :}; 
-
-proc_decl               ::= PROCEDURE proc_decl_type:t ID:name 
-                            LPAR param_decl RPAR
+                          | {: RESULT = null; :}
                         ; 
 
-proc_decl_type          ::= type:t {: RESULT = t; :}
-                            | {: RESULT = null; :}
+proc_decl               ::= PROCEDURE proc_decl_type:t ID:n
+                            LPAR param_list:pl RPAR
+                            LBRACK proc_decl_decls RBRACK
+                            
+                            {: RESULT = new ProcDecl(n, t, pl, null); :}
+                        ; 
+
+proc_decl_decls         ::= decl_list:dl {:RESULT = dl; :}
+                            | {:RESULT = null; :}
                         ;
 
-
+proc_decl_type          ::= RET type:t {: RESULT = t; :}
+                            | {: RESULT = null; :}
+                        ;
                         
 class_decl		          ::= CLASS ID:name LBRACK var_list:v RBRACK
                           {: RESULT = new ClassDecl(name, v); :}
 				                ;
 
-param_decl              ::= REFERENCE type:t ID:name;
+param_decl              ::= param_ref:ref type:t ID:name {: RESULT = new ParamDecl(name, t, ref); :}
+                            | {:RESULT = null; :}
+                        ;
+                        
+param_ref               ::= REFERENCE {: RESULT = true; :}
+                            | {:RESULT = false; :}
+                        ;
+
+param_list              ::= param_decl:p {: List<Decl> l = new LinkedList<Decl>();
+                            l.add(p);
+                            RESULT = l; :} 
+                          | param_list:pl COMMA param_decl:p 
+                            {: pl.add(p); RESULT = pl; :}
+                        ;
 
 
-exp		      ::= exp OR exp1 | exp1;
+exp		                  ::= exp OR exp1 | exp1;
 
-exp1		      ::= exp1 AND exp2 | exp2;
+exp1		                ::= exp1 AND exp2 | exp2;
 
-exp2		      ::= NOT exp2 | exp3;
+exp2		                ::= NOT exp2 | exp3;
 
-exp3		      ::= exp3 rel_op exp4;
+exp3		                ::= exp3 rel_op exp4;
 
-exp4		      ::= exp4 PLUS exp5 | exp4 MINUS exp5 | exp5; 
+exp4		                ::= exp4 PLUS exp5 | exp4 MINUS exp5 | exp5; 
 
-exp5		      ::= exp5 TIMES exp6 | exp5 DIVIDE exp6 | exp6;
+exp5		                ::= exp5 TIMES exp6 | exp5 DIVIDE exp6 | exp6;
 
-exp6		      ::= exp7 EXPO exp6 | exp7;
+exp6		                ::= exp7 EXPO exp6 | exp7;
 
-exp7		      ::= var | exp | NEW NAME | literal | LPAR exp RPAR;
+exp7		                ::= var | exp | NEW NAME | literal | LPAR exp RPAR;
 
 
 

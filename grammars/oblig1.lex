@@ -35,6 +35,7 @@ Name = [A-Za-z] [A-Za-z0-9_]+
   <YYINITIAL>{
         {WhiteSpace}                    {}
         "class"                         { return symbol(sym.CLASS); }
+        "proc"                          { return symbol(sym.PROCEDURE); }
         "var"                           { return symbol(sym.VARIABLE); }
         "ref"                           { return symbol(sym.REFERENCE); }
         "null"                          { return symbol(sym.NULL); }
@@ -73,7 +74,6 @@ Name = [A-Za-z] [A-Za-z0-9_]+
 	      "do"                            { return symbol(sym.DO); }
         "ret"                           { return symbol(sym.RET); }
 	      "return"                        { return symbol(sym.RETURN); }
-	      "proc"                          { return symbol(sym.PROCEDURE); }
 
         {Identifier}                    { return symbol(sym.ID,yytext()); }
 

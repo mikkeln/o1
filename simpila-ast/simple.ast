@@ -1,8 +1,12 @@
 (Program
-  (CLASS_DECL (NAME test)
-    (VAR_DECL (TYPE int) (NAME mordi))
+  (CLASS_DECL (NAME Complex)
+    (VAR_DECL (TYPE float) (NAME Real))
+    (VAR_DECL (TYPE float) (NAME Imag))
   )
 
-  (VAR_DECL (TYPE float) (NAME mordi2))
+  (PROC_DECL (NAME Swap)(TYPE void)
+    (PARAM_DECL (TYPE int) (NAME a))
+    (PARAM_DECL (TYPE int) (NAME b))
+  )
 
 )

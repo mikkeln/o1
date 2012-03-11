@@ -1,5 +1,9 @@
-class test {
-  var int mordi;
+class Complex {
+    var float Real;
+    var float Imag;
 }
 
-var float mordi2;
+proc Swap( ref int a, ref int b )
+{
+    var int tmp;
+}
