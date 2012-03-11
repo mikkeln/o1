@@ -25,13 +25,15 @@ terminal                        PLUS, MINUS, TIMES, DIVIDE, EXPO;
 terminal 			                  LPAR, RPAR;
 terminal                        SEMI, RETURN;
 terminal			                  IF, THEN, ELSE, WHILE, DO;
+terminal			                  RET;
+terminal			                  COMMA;
 
 terminal String                 ID;
 terminal String                 STRING_LITERAL;
 terminal String			            NAME;
 terminal String                 INT_LITERAL;
 terminal String                 FLOAT_LITERAL;
-terminal String                 BOOL_LITERAL;
+terminal String                 BOOL_LITERAL; /*?*/
 
 /* Non terminals */
 non terminal Program	          program;
@@ -51,6 +53,7 @@ non terminal                    literal;
 non terminal                    actual_param;
 non terminal String             type;
 
+non terminal                    proc_decl, proc_decl_type;
 
 
 /* The grammar */
@@ -78,7 +81,8 @@ var_list                ::= decl_list:l {: RESULT = l; :}
                             | {: RESULT = null; :}; 
 
 proc_decl               ::= PROCEDURE proc_decl_type:t ID:name 
-                            LPAR param_decl RPAR   
+                            LPAR param_decl RPAR
+                        ; 
 
 proc_decl_type          ::= type:t {: RESULT = t; :}
                             | {: RESULT = null; :}
