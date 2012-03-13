@@ -51,6 +51,7 @@ Name = [A-Za-z] [A-Za-z0-9_]+
         "<="			                      { return symbol(sym.LCHEVEQ); }
         ">="				                    { return symbol(sym.RCHEVEQ); }
         "="				                      { return symbol(sym.EQUALS); }
+        ":="				                    { return symbol(sym.ASSIGNMENT); }
         "<>"				                    { return symbol(sym.NEQUAL); }
         "."                             { return symbol(sym.DOT); }
         "+"                             { return symbol(sym.PLUS); }

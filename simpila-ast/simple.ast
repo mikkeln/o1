@@ -7,6 +7,15 @@
   (PROC_DECL (NAME Swap)(TYPE void)
     (PARAM_DECL (TYPE int) (NAME a))
     (PARAM_DECL (TYPE int) (NAME b))
+
+    (VAR_DECL (TYPE int) (NAME tmp))
+
+    (IF_STMT ( (REL_OP > (NAME a) (NAME b) ) )
+        (IF_STMT ( (NAME temp) )
+
+        )
+
+    )
   )
 
 )

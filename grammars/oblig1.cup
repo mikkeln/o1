@@ -12,6 +12,7 @@ terminal                        CLASS;
 terminal                        REFERENCE;
 terminal                        PROCEDURE;
 terminal                        VARIABLE;
+terminal                        ASSIGNMENT;
 terminal String                 FLOAT, INT, STRING, BOOL;
 terminal 			                  LBRACK, RBRACK;
 terminal                        LCHEV, LCHEVEQ, RCHEV, RCHEVEQ;
@@ -49,15 +50,36 @@ non terminal ParamDecl          param_decl;
 non terminal List<Decl>         param_list;
 non terminal Boolean            param_ref;
 
-non terminal                    exp, exp1, exp2, exp3, exp4, exp5, exp6, exp7;
-non terminal                    var;
+non terminal Exp                exp;
+non terminal                    exp1, exp2, exp3, exp4, exp5, exp6, exp7;
+non terminal Exp                var;
 non terminal                    log_op;
-non terminal                    rel_op;
+non terminal String             rel_op;
 non terminal                    arit_op;
 non terminal                    literal;
 non terminal                    actual_param;
 non terminal String             type;
 
+
+non terminal Stmt stmt;
+non terminal List<Stmt> stmts;
+non terminal List<Stmt> stmt_list;
+
+non terminal Stmt assign_stmt;
+non terminal Stmt if_stmt;
+non terminal List<Stmt> if_else;
+non terminal Stmt while_stmt;
+non terminal Stmt return_stmt;
+non terminal Exp return_val;
+
+precedence left OR;
+precedence left AND;
+precedence left NOT;
+precedence nonassoc LCHEV, LCHEVEQ, RCHEV, RCHEVEQ, EQUALS, NEQUAL;
+precedence left PLUS, MINUS;
+precedence left TIMES, DIVIDE;
+precedence right EXPO;
+precedence left DOT;
 
 /* The grammar */
 program			            ::= decl_list:dl
@@ -87,9 +109,9 @@ var_list                ::= decl_list:l {: RESULT = l; :}
 
 proc_decl               ::= PROCEDURE proc_decl_type:t ID:n
                             LPAR param_list:pl RPAR
-                            LBRACK proc_decl_decls RBRACK
+                            LBRACK proc_decl_decls:pd stmts:st RBRACK
                             
-                            {: RESULT = new ProcDecl(n, t, pl, null); :}
+                            {: RESULT = new ProcDecl(n, t, pl, pd, st); :}
                         ; 
 
 proc_decl_decls         ::= decl_list:dl {:RESULT = dl; :}
@@ -120,6 +142,7 @@ param_list              ::= param_decl:p {: List<Decl> l = new LinkedList<Decl>(
                         ;
 
 
+/*
 exp		                  ::= exp OR exp1 | exp1;
 
 exp1		                ::= exp1 AND exp2 | exp2;
@@ -135,29 +158,74 @@ exp5		                ::= exp5 TIMES exp6 | exp5 DIVIDE exp6 | exp6;
 exp6		                ::= exp7 EXPO exp6 | exp7;
 
 exp7		                ::= var | exp | NEW NAME | literal | LPAR exp RPAR;
+*/
 
-
-
-/*
 exp                     ::= exp log_op exp
                             | NOT exp
-                            | exp rel_op exp
+                            | exp:e1 rel_op:op exp:e2 
+                              {: RESULT = new OpExp("REL_OP", e1, e2, op); :}
                             | exp arit_op exp
                             | LPAR exp RPAR
-                            | literal */
-                            /* | call_stmt */
-/*                            | NEW ID:name
-                            | var
-                        ;*/
+                            | literal
+                            /*| call_stmt*/
+                            | NEW ID:name
+                            | var:v {: RESULT = v; :}
+                        ;
 
-var                     ::= ID:name | exp DOT ID:name;
+var                     ::= ID:name {: RESULT = new NameExp(name); :} 
+                            | exp:ex DOT ID:name 
+                              {: RESULT = new NameExp(name, ex); :}
+                        ;
 
 log_op                  ::= AND | OR;
-rel_op                  ::= LCHEV | LCHEVEQ | RCHEV | RCHEVEQ | EQUALS | NEQUAL;
+rel_op                  ::= LCHEV       {: RESULT = "<"; :}
+                            | LCHEVEQ   {: RESULT = "<="; :}
+                            | RCHEV     {: RESULT = ">"; :}
+                            | RCHEVEQ   {: RESULT = ">="; :}
+                            | EQUALS    {: RESULT = "="; :}
+                            | NEQUAL    {: RESULT = "<>"; :}
+                        ;
+                        
 arit_op                 ::= PLUS | MINUS | TIMES | DIVIDE | EXPO;
 
 literal                 ::= FLOAT_LITERAL | INT_LITERAL | STRING_LITERAL 
                             | TRUE | FALSE | NULL;
+
+
+stmt                    ::= if_stmt:is              {: RESULT = is; :};
+/*
+stmt                    ::= assign_stmt:as SEMI    {: RESULT = as; :}
+                            | if_stmt:is           {: RESULT = is; :}
+                            | while_stmt:ws        {: RESULT = ws; :}
+                            | return_stmt:rs SEMI  {: RESULT = rs; :}
+                        ;
+*/
+                            
+stmt_list               ::= stmt:s {: List<Stmt> l = new LinkedList<Stmt>();
+                            l.add(s);
+                            RESULT = l; :} 
+                          | stmt_list:sl stmt:s 
+                            {: sl.add(s); RESULT = sl; :}
+                        ;
+
+stmts                   ::= stmt_list:sl {: RESULT = sl; :}
+                            | {: RESULT = null; :}
+                        ;
+
+assign_stmt             ::= var ASSIGNMENT exp;
+
+if_stmt                 ::= IF exp:ex THEN LBRACK stmts:st RBRACK if_else:el
+                            {: RESULT = new IfStmt(ex, st, el); :}
+                        ;
+
+if_else                 ::= ELSE LBRACK stmts:st RBRACK {: RESULT = st; :}
+                            | {: RESULT = null; :}
+                        ;
+
+while_stmt              ::= WHILE exp DO LBRACK stmts RBRACK;
+
+return_stmt             ::= RETURN return_val;
+return_val              ::= exp | ;
 
 actual_param            ::= REFERENCE var | exp;
 
