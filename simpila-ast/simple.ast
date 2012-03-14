@@ -10,12 +10,25 @@
 
     (VAR_DECL (TYPE int) (NAME tmp))
 
+    (ASSIGN_STMT
+      (NAME tmp)
+      (NAME a)
+    )
+    (ASSIGN_STMT
+      (NAME a)
+      (NAME b)
+    )
+    (ASSIGN_STMT
+      (NAME b)
+      (NAME tmp)
+    )
     (IF_STMT ( (REL_OP > (NAME a) (NAME b) ) )
         (IF_STMT ( (NAME temp) )
 
         )
 
     )
+    (RETURN_STMT (NAME tmp))
   )
 
 )

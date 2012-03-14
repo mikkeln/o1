@@ -12,7 +12,7 @@ terminal                        CLASS;
 terminal                        REFERENCE;
 terminal                        PROCEDURE;
 terminal                        VARIABLE;
-terminal                        ASSIGNMENT;
+terminal	                      ASSIGNMENT;
 terminal String                 FLOAT, INT, STRING, BOOL;
 terminal 			                  LBRACK, RBRACK;
 terminal                        LCHEV, LCHEVEQ, RCHEV, RCHEVEQ;
@@ -192,7 +192,10 @@ literal                 ::= FLOAT_LITERAL | INT_LITERAL | STRING_LITERAL
                             | TRUE | FALSE | NULL;
 
 
-stmt                    ::= if_stmt:is              {: RESULT = is; :};
+stmt                    ::= assign_stmt:as SEMI    {: RESULT = as; :}
+                            | if_stmt:is           {: RESULT = is; :}
+			                      | return_stmt:rs SEMI  {: RESULT = rs; :}
+			                  ;
 /*
 stmt                    ::= assign_stmt:as SEMI    {: RESULT = as; :}
                             | if_stmt:is           {: RESULT = is; :}
@@ -212,7 +215,9 @@ stmts                   ::= stmt_list:sl {: RESULT = sl; :}
                             | {: RESULT = null; :}
                         ;
 
-assign_stmt             ::= var ASSIGNMENT exp;
+assign_stmt             ::= var:v ASSIGNMENT exp:e 
+                            {: RESULT = new AssignStmt(v, e); :} 
+			                  ;
 
 if_stmt                 ::= IF exp:ex THEN LBRACK stmts:st RBRACK if_else:el
                             {: RESULT = new IfStmt(ex, st, el); :}
@@ -224,8 +229,10 @@ if_else                 ::= ELSE LBRACK stmts:st RBRACK {: RESULT = st; :}
 
 while_stmt              ::= WHILE exp DO LBRACK stmts RBRACK;
 
-return_stmt             ::= RETURN return_val;
-return_val              ::= exp | ;
+return_stmt             ::= RETURN exp:e {:RESULT = new ReturnStmt(e); :}
+			                    | RETURN;
+			  
+//return_val              ::= exp:e {::}| ;
 
 actual_param            ::= REFERENCE var | exp;
 
