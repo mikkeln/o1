@@ -53,10 +53,10 @@ non terminal Boolean            param_ref;
 non terminal Exp                exp;
 non terminal                    exp1, exp2, exp3, exp4, exp5, exp6, exp7;
 non terminal Exp                var;
-non terminal                    log_op;
+non terminal String             log_op;
 non terminal String             rel_op;
-non terminal                    arit_op;
-non terminal                    literal;
+non terminal String             arit_op;
+non terminal String             literal;
 non terminal                    actual_param;
 non terminal String             type;
 
@@ -160,16 +160,23 @@ exp6		                ::= exp7 EXPO exp6 | exp7;
 exp7		                ::= var | exp | NEW NAME | literal | LPAR exp RPAR;
 */
 
-exp                     ::= exp log_op exp
-                            | NOT exp
+exp                     ::= exp:e1 log_op:op exp:e2
+                               {: RESULT = new OpExp("LOG_OP", e1, e2, op); :}
+                            | NOT exp:e1
+                               {: RESULT = new OpExp("NOT", e1, null, ""); :}
                             | exp:e1 rel_op:op exp:e2 
                               {: RESULT = new OpExp("REL_OP", e1, e2, op); :}
-                            | exp arit_op exp
-                            | LPAR exp RPAR
-                            | literal
+                            | exp:e1 arit_op:op exp:e2
+                              {: RESULT = new OpExp("ARIT_OP", e1, e2, op); :}
+                            | LPAR exp:ex RPAR
+                              {: RESULT = ex; :}
+                            | literal:l
+                               {: RESULT = new OpExp("LITERAL", null, null, l); :}
                             /*| call_stmt*/
                             | NEW ID:name
-                            | var:v {: RESULT = v; :}
+                              {: RESULT = new OpExp("NEW", null, null, name); :}
+                            | var:v 
+                              {: RESULT = v; :}
                         ;
 
 var                     ::= ID:name {: RESULT = new NameExp(name); :} 
@@ -177,7 +184,10 @@ var                     ::= ID:name {: RESULT = new NameExp(name); :}
                               {: RESULT = new NameExp(name, ex); :}
                         ;
 
-log_op                  ::= AND | OR;
+log_op                  ::= AND         {: RESULT = "&&"; :} 
+                            | OR        {: RESULT = "||"; :}
+                        ;
+                        
 rel_op                  ::= LCHEV       {: RESULT = "<"; :}
                             | LCHEVEQ   {: RESULT = "<="; :}
                             | RCHEV     {: RESULT = ">"; :}
@@ -186,14 +196,24 @@ rel_op                  ::= LCHEV       {: RESULT = "<"; :}
                             | NEQUAL    {: RESULT = "<>"; :}
                         ;
                         
-arit_op                 ::= PLUS | MINUS | TIMES | DIVIDE | EXPO;
+arit_op                 ::= PLUS        {: RESULT = "+"; :}
+                            | MINUS     {: RESULT = "-"; :}
+                            | TIMES     {: RESULT = "*"; :}
+                            | DIVIDE    {: RESULT = "/"; :}
+                            | EXPO      {: RESULT = "**"; :}
+                        ;
 
-literal                 ::= FLOAT_LITERAL | INT_LITERAL | STRING_LITERAL 
-                            | TRUE | FALSE | NULL;
-
+literal                 ::= FLOAT_LITERAL:f     {: RESULT = ""+f; :} 
+                            | INT_LITERAL:i     {: RESULT = ""+i; :}
+                            | STRING_LITERAL:s  {: RESULT = s; :}
+                            | TRUE              {: RESULT = "true"; :}
+                            | FALSE             {: RESULT = "false"; :}
+                            | NULL              {: RESULT = "null"; :}
+                        ;
 
 stmt                    ::= assign_stmt:as SEMI    {: RESULT = as; :}
                             | if_stmt:is           {: RESULT = is; :}
+                            | while_stmt:ws        {: RESULT = ws; :}
 			                      | return_stmt:rs SEMI  {: RESULT = rs; :}
 			                  ;
 /*
@@ -227,10 +247,13 @@ if_else                 ::= ELSE LBRACK stmts:st RBRACK {: RESULT = st; :}
                             | {: RESULT = null; :}
                         ;
 
-while_stmt              ::= WHILE exp DO LBRACK stmts RBRACK;
+while_stmt              ::= WHILE exp:ex DO LBRACK stmts:st RBRACK
+                            {: RESULT = new WhileStmt(ex, st); :}
+                        ;
 
 return_stmt             ::= RETURN exp:e {:RESULT = new ReturnStmt(e); :}
-			                    | RETURN;
+                            | RETURN {: RESULT = new ReturnStmt(null); :}
+			                  ;
 			  
 //return_val              ::= exp:e {::}| ;
 

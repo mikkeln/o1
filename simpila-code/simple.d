@@ -12,7 +12,9 @@ proc Swap( ref int a, ref int b )
    
     if a > b then
     {
-      if temp then {}
+      while temp do {
+        mordi := mann;
+      }
     }
 
 	return tmp;

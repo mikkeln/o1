@@ -23,10 +23,13 @@
       (NAME tmp)
     )
     (IF_STMT ( (REL_OP > (NAME a) (NAME b) ) )
-        (IF_STMT ( (NAME temp) )
+        (WHILE_STMT ( (NAME temp) )
+            (ASSIGN_STMT
+              (NAME mordi)
+              (NAME mann)
+            )
 
         )
-
     )
     (RETURN_STMT (NAME tmp))
   )
