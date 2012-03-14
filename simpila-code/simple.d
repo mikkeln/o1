@@ -16,6 +16,8 @@ proc Swap( ref int a, ref int b )
         mordi := mann;
       }
     }
+    
+    printfloat( Square( num ) );
 
 	return tmp;
 }

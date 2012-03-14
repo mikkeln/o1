@@ -31,7 +31,13 @@
 
         )
     )
+    (CALL_STMT (NAME printfloat)
+      (ACTUAL_PARAM (CALL_STMT (NAME Square)
+        (ACTUAL_PARAM (NAME num))
+        ))
+    )
     (RETURN_STMT (NAME tmp))
+    
   )
 
 )

@@ -57,7 +57,7 @@ public class ProcDecl extends Decl{
     
     
     
-    out += spaces(offset) + ")\n";
+    out += "\n" + spaces(offset) + ")\n";
       
     return out;
   }

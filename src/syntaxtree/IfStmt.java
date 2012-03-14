@@ -29,9 +29,9 @@ public class IfStmt extends Stmt {
       for (Stmt es : else_stmt){
         out += es.printAst(offset + 4);
       }
-      out += spaces(offset) + ")\n";
+      out += spaces(offset) + ")\n" + spaces(offset);
     } else {
-      out += "\n";
+      out += "\n" + spaces(offset);
     }
 
     

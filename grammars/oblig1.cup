@@ -57,7 +57,6 @@ non terminal String             log_op;
 non terminal String             rel_op;
 non terminal String             arit_op;
 non terminal String             literal;
-non terminal                    actual_param;
 non terminal String             type;
 
 
@@ -65,12 +64,16 @@ non terminal Stmt stmt;
 non terminal List<Stmt> stmts;
 non terminal List<Stmt> stmt_list;
 
-non terminal Stmt assign_stmt;
-non terminal Stmt if_stmt;
-non terminal List<Stmt> if_else;
-non terminal Stmt while_stmt;
-non terminal Stmt return_stmt;
-non terminal Exp return_val;
+non terminal Stmt               assign_stmt;
+non terminal Stmt               if_stmt;
+non terminal List<Stmt>         if_else;
+non terminal Stmt               while_stmt;
+non terminal Stmt               return_stmt;
+non terminal Exp                return_val;
+non terminal CallStmt           call_stmt;
+non terminal List<Exp>          call_params;
+non terminal Exp                actual_param;
+
 
 precedence left OR;
 precedence left AND;
@@ -171,8 +174,9 @@ exp                     ::= exp:e1 log_op:op exp:e2
                             | LPAR exp:ex RPAR
                               {: RESULT = ex; :}
                             | literal:l
-                               {: RESULT = new OpExp("LITERAL", null, null, l); :}
-                            /*| call_stmt*/
+                              {: RESULT = new OpExp("LITERAL", null, null, l); :}
+                            | call_stmt:cs
+                              {: CallExp ce = cs.gexp(); RESULT = ce; :}
                             | NEW ID:name
                               {: RESULT = new OpExp("NEW", null, null, name); :}
                             | var:v 
@@ -215,14 +219,8 @@ stmt                    ::= assign_stmt:as SEMI    {: RESULT = as; :}
                             | if_stmt:is           {: RESULT = is; :}
                             | while_stmt:ws        {: RESULT = ws; :}
 			                      | return_stmt:rs SEMI  {: RESULT = rs; :}
+			                      | call_stmt:cs SEMI    {: RESULT = cs; :}
 			                  ;
-/*
-stmt                    ::= assign_stmt:as SEMI    {: RESULT = as; :}
-                            | if_stmt:is           {: RESULT = is; :}
-                            | while_stmt:ws        {: RESULT = ws; :}
-                            | return_stmt:rs SEMI  {: RESULT = rs; :}
-                        ;
-*/
                             
 stmt_list               ::= stmt:s {: List<Stmt> l = new LinkedList<Stmt>();
                             l.add(s);
@@ -254,10 +252,23 @@ while_stmt              ::= WHILE exp:ex DO LBRACK stmts:st RBRACK
 return_stmt             ::= RETURN exp:e {:RESULT = new ReturnStmt(e); :}
                             | RETURN {: RESULT = new ReturnStmt(null); :}
 			                  ;
-			  
-//return_val              ::= exp:e {::}| ;
 
-actual_param            ::= REFERENCE var | exp;
+call_stmt               ::= ID:name LPAR call_params:cp RPAR
+                            {: RESULT = new CallStmt(name, cp); :}
+                        ;
+                        
+call_params             ::= actual_param:p {: List<Exp> l = new LinkedList<Exp>();
+                            if (p != null) l.add(p);
+                            RESULT = l; :} 
+                          | call_params:cp COMMA actual_param:p 
+                            {: if (p != null) cp.add(p); RESULT = cp; :}
+                        ;
+
+actual_param            ::= REFERENCE var:v   {: RESULT = v; :}
+                            | exp:e           {: RESULT = e; :}
+                            |                 {: RESULT = null; :}
+
+                        ;
 
 type                    ::= FLOAT     {: RESULT = "float";  :}
                             | INT     {: RESULT = "int";    :}
