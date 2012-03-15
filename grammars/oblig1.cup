@@ -34,7 +34,6 @@ terminal String                 STRING_LITERAL;
 terminal String			            NAME;
 terminal String                 INT_LITERAL;
 terminal String                 FLOAT_LITERAL;
-terminal String                 BOOL_LITERAL; /*?*/
 
 /* Non terminals */
 non terminal Program	          program;
@@ -51,7 +50,6 @@ non terminal List<Decl>         param_list;
 non terminal Boolean            param_ref;
 
 non terminal Exp                exp;
-non terminal                    exp1, exp2, exp3, exp4, exp5, exp6, exp7;
 non terminal Exp                var;
 non terminal String             log_op;
 non terminal String             rel_op;
@@ -59,10 +57,9 @@ non terminal String             arit_op;
 non terminal String             literal;
 non terminal String             type;
 
-
-non terminal Stmt stmt;
-non terminal List<Stmt> stmts;
-non terminal List<Stmt> stmt_list;
+non terminal Stmt               stmt;
+non terminal List<Stmt>         stmts;
+non terminal List<Stmt>         stmt_list;
 
 non terminal Stmt               assign_stmt;
 non terminal Stmt               if_stmt;
@@ -143,25 +140,6 @@ param_list              ::= param_decl:p {: List<Decl> l = new LinkedList<Decl>(
                           | param_list:pl COMMA param_decl:p 
                             {: pl.add(p); RESULT = pl; :}
                         ;
-
-
-/*
-exp		                  ::= exp OR exp1 | exp1;
-
-exp1		                ::= exp1 AND exp2 | exp2;
-
-exp2		                ::= NOT exp2 | exp3;
-
-exp3		                ::= exp3 rel_op exp4;
-
-exp4		                ::= exp4 PLUS exp5 | exp4 MINUS exp5 | exp5; 
-
-exp5		                ::= exp5 TIMES exp6 | exp5 DIVIDE exp6 | exp6;
-
-exp6		                ::= exp7 EXPO exp6 | exp7;
-
-exp7		                ::= var | exp | NEW NAME | literal | LPAR exp RPAR;
-*/
 
 exp                     ::= exp:e1 log_op:op exp:e2
                                {: RESULT = new OpExp("LOG_OP", e1, e2, op); :}

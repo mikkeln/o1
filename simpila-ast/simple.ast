@@ -22,21 +22,74 @@
       (NAME b)
       (NAME tmp)
     )
-    (IF_STMT ( (REL_OP > (NAME a) (NAME b) ) )
-        (WHILE_STMT ( (NAME temp) )
-            (ASSIGN_STMT
-              (NAME mordi)
-              (NAME mann)
-            )
 
-        )
+  )
+
+  (PROC_DECL (NAME Add)(TYPE Complex)
+    (PARAM_DECL (TYPE Complex) (NAME a))
+    (PARAM_DECL (TYPE Complex) (NAME b))
+
+    (VAR_DECL (TYPE Complex) (NAME retval))
+
+    (ASSIGN_STMT
+      (NAME retval)
+      (NEW Complex )
+    )
+    (ASSIGN_STMT
+      ( . (NAME Real) (NAME retval))
+      (ARIT_OP + ( . (NAME Real) (NAME a)) ( . (NAME Real) (NAME b)) )
+    )
+    (ASSIGN_STMT
+      ( . (NAME Imag) (NAME retval))
+      (ARIT_OP + ( . (NAME Imag) (NAME a)) ( . (NAME Imag) (NAME b)) )
+    )
+(RETURN_STMT (NAME retval))
+    
+  )
+
+  (PROC_DECL (NAME Max)(TYPE int)
+    (PARAM_DECL (TYPE int) (NAME a))
+    (PARAM_DECL (TYPE int) (NAME b))
+
+    (IF_STMT ( (REL_OP > (NAME a) (NAME b) ) )
+(RETURN_STMT (NAME a))
+        
+    )
+        (IF_STMT ( (NOT  (REL_OP > (NAME a) (ARIT_OP + (NAME b) (NAME b) ) ) ) )
+(RETURN_STMT (ARIT_OP + (NAME a) (NAME b) ))
+        
+    )
+    (RETURN_STMT (NAME b))
+    
+  )
+
+  (PROC_DECL (NAME Main)(TYPE void)
+NULL ERROR IN ProcDecl
+
+    (PROC_DECL (NAME Square)(TYPE float)
+      (PARAM_DECL (TYPE float) (NAME val))
+
+(RETURN_STMT (ARIT_OP ** (NAME val) (LITERAL 2.0 ) ))
+      
+    )
+    (VAR_DECL (TYPE float) (NAME num))
+
+    (ASSIGN_STMT
+      (NAME num)
+      (LITERAL 6.480740 )
+    )
+(CALL_STMT (NAME printfloat)
+      (ACTUAL_PARAM (NAME num))
+    )
+    (CALL_STMT (NAME printstr)
+      (ACTUAL_PARAM (LITERAL  squared is  ))
     )
     (CALL_STMT (NAME printfloat)
       (ACTUAL_PARAM (CALL_STMT (NAME Square)
         (ACTUAL_PARAM (NAME num))
         ))
     )
-    (RETURN_STMT (NAME tmp))
+    (RETURN_STMT)
     
   )
 

@@ -24,9 +24,9 @@ LineTerminator = \r|\n|\r\n
 WhiteSpace		= {LineTerminator} | [ \t\f]
 Identifier = [:jletter:] [:jletterdigit:]*
 StringLiteral = \" [A-Za-z]* \"
-FloatLiteral = [0-9]+ \, [0-9]+
-IntLiteral = [A-Za-z]+
-Name = [A-Za-z] [A-Za-z0-9_]+
+FloatLiteral = [0-9]+ \. [0-9]+
+IntLiteral = [0-9]+
+Name = [A-Za-z] [A-Za-z0-9]+  //<-- Not working :(
 
 
 %state STRING
@@ -75,17 +75,18 @@ Name = [A-Za-z] [A-Za-z0-9_]+
 	      "do"                            { return symbol(sym.DO); }
         "ret"                           { return symbol(sym.RET); }
 	      "return"                        { return symbol(sym.RETURN); }
-
-        {Identifier}                    { return symbol(sym.ID,yytext()); }
-
-	      /*Literals*/
-	      {FloatLiteral}                  { return symbol(sym.FLOAT_LITERAL); }
-	      {IntLiteral}                    { return symbol(sym.INT_LITERAL); }
-	      {Name}                          { return symbol(sym.NAME); }
-	      \"                              { string.setLength(0); yybegin(STRING); } 
         "null"                          { return symbol(sym.NULL); }
         "true"                          { return symbol(sym.TRUE); }
         "false"                         { return symbol(sym.FALSE); }
+
+
+	      \"                              { string.setLength(0); yybegin(STRING); } 
+
+	      /*Literals*/
+	      {FloatLiteral}                  { return symbol(sym.FLOAT_LITERAL, yytext() ); }
+	      {IntLiteral}                    { return symbol(sym.INT_LITERAL, yytext()); }
+	      //{Name}                          { return symbol(sym.NAME, yytext()); }        
+        {Identifier}                    { return symbol(sym.ID,yytext()); }
 
 }
 
