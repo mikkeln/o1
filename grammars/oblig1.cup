@@ -54,7 +54,7 @@ non terminal Exp                var;
 non terminal String             log_op;
 non terminal String             rel_op;
 non terminal String             arit_op;
-non terminal String             literal;
+non terminal Exp                literal;
 non terminal String             type;
 
 non terminal Stmt               stmt;
@@ -87,10 +87,10 @@ program			            ::= decl_list:dl
 				                ;
 
 decl_list               ::= decl:d {: List<Decl> l = new LinkedList<Decl>();
-                            l.add(d);
+                            if (d != null) l.add(d);
                             RESULT = l; :} 
                           | decl_list:dl decl:d 
-                            {: dl.add(d); RESULT = dl; :}
+                            {: if (d != null) dl.add(d); RESULT = dl; :}
                         ;
 
 decl                    ::= class_decl:sd {: RESULT = sd; :}
@@ -135,10 +135,10 @@ param_ref               ::= REFERENCE {: RESULT = true; :}
                         ;
 
 param_list              ::= param_decl:p {: List<Decl> l = new LinkedList<Decl>();
-                            l.add(p);
+                            if (p != null) l.add(p);
                             RESULT = l; :} 
                           | param_list:pl COMMA param_decl:p 
-                            {: pl.add(p); RESULT = pl; :}
+                            {: if (p != null) pl.add(p); RESULT = pl; :}
                         ;
 
 exp                     ::= exp:e1 log_op:op exp:e2
@@ -152,7 +152,7 @@ exp                     ::= exp:e1 log_op:op exp:e2
                             | LPAR exp:ex RPAR
                               {: RESULT = ex; :}
                             | literal:l
-                              {: RESULT = new OpExp("LITERAL", null, null, l); :}
+                              {: RESULT = l; :}
                             | call_stmt:cs
                               {: CallExp ce = cs.gexp(); RESULT = ce; :}
                             | NEW ID:name
@@ -185,12 +185,18 @@ arit_op                 ::= PLUS        {: RESULT = "+"; :}
                             | EXPO      {: RESULT = "**"; :}
                         ;
 
-literal                 ::= FLOAT_LITERAL:f     {: RESULT = ""+f; :} 
-                            | INT_LITERAL:i     {: RESULT = ""+i; :}
-                            | STRING_LITERAL:s  {: RESULT = s; :}
-                            | TRUE              {: RESULT = "true"; :}
-                            | FALSE             {: RESULT = "false"; :}
-                            | NULL              {: RESULT = "null"; :}
+literal                 ::= FLOAT_LITERAL:f
+                              {: RESULT = new LiteralExp("FLOAT", ""+f); :} 
+                            | INT_LITERAL:i
+                              {: RESULT = new LiteralExp("INT", ""+i); :}
+                            | STRING_LITERAL:s
+                              {: RESULT = new LiteralExp("STRING", "\"" + s + "\""); :}
+                            | TRUE
+                              {: RESULT = new LiteralExp("BOOL", "true"); :}
+                            | FALSE
+                              {: RESULT = new LiteralExp("BOOL", "false"); :}
+                            | NULL
+                              {: RESULT = new LiteralExp("NULL", "null"); :}
                         ;
 
 stmt                    ::= assign_stmt:as SEMI    {: RESULT = as; :}
@@ -201,10 +207,10 @@ stmt                    ::= assign_stmt:as SEMI    {: RESULT = as; :}
 			                  ;
                             
 stmt_list               ::= stmt:s {: List<Stmt> l = new LinkedList<Stmt>();
-                            l.add(s);
+                            if (s != null) l.add(s);
                             RESULT = l; :} 
                           | stmt_list:sl stmt:s 
-                            {: sl.add(s); RESULT = sl; :}
+                            {: if (s != null) sl.add(s); RESULT = sl; :}
                         ;
 
 stmts                   ::= stmt_list:sl {: RESULT = sl; :}

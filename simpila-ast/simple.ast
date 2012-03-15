@@ -37,52 +37,80 @@
     )
     (ASSIGN_STMT
       ( . (NAME Real) (NAME retval))
-      (ARIT_OP + ( . (NAME Real) (NAME a)) ( . (NAME Real) (NAME b)) )
+      (ARIT_OP + 
+        ( . (NAME Real) (NAME a))
+        ( . (NAME Real) (NAME b))
+      )
     )
     (ASSIGN_STMT
       ( . (NAME Imag) (NAME retval))
-      (ARIT_OP + ( . (NAME Imag) (NAME a)) ( . (NAME Imag) (NAME b)) )
+      (ARIT_OP + 
+        ( . (NAME Imag) (NAME a))
+        ( . (NAME Imag) (NAME b))
+      )
     )
-(RETURN_STMT (NAME retval))
-    
+    (RETURN_STMT (NAME retval))
+
   )
 
   (PROC_DECL (NAME Max)(TYPE int)
     (PARAM_DECL (TYPE int) (NAME a))
     (PARAM_DECL (TYPE int) (NAME b))
 
-    (IF_STMT ( (REL_OP > (NAME a) (NAME b) ) )
-(RETURN_STMT (NAME a))
-        
+    (IF_STMT (REL_OP > 
+        (NAME a)
+        (NAME b)
+      ) 
+      (
+        (RETURN_STMT (NAME a))
+      )
+
+    ) ELSE (
+        (RETURN_STMT (NAME b))
     )
-        (IF_STMT ( (NOT  (REL_OP > (NAME a) (ARIT_OP + (NAME b) (NAME b) ) ) ) )
-(RETURN_STMT (ARIT_OP + (NAME a) (NAME b) ))
-        
+        (IF_STMT (NOT  
+        (REL_OP > 
+          (NAME a)
+          (ARIT_OP + 
+            (NAME b)
+            (NAME b)
+          )
+        )
+      ) 
+      (
+        (RETURN_STMT (ARIT_OP + 
+            (NAME a)
+            (NAME b)
+          ))
+      )
+
     )
     (RETURN_STMT (NAME b))
-    
+
   )
 
   (PROC_DECL (NAME Main)(TYPE void)
-NULL ERROR IN ProcDecl
 
     (PROC_DECL (NAME Square)(TYPE float)
       (PARAM_DECL (TYPE float) (NAME val))
 
-(RETURN_STMT (ARIT_OP ** (NAME val) (LITERAL 2.0 ) ))
-      
+      (RETURN_STMT (ARIT_OP ** 
+          (NAME val)
+          (FLOAT_LITERAL 2.0)
+        ))
+
     )
     (VAR_DECL (TYPE float) (NAME num))
 
     (ASSIGN_STMT
       (NAME num)
-      (LITERAL 6.480740 )
+      (FLOAT_LITERAL 6.480740)
     )
-(CALL_STMT (NAME printfloat)
+    (CALL_STMT (NAME printfloat)
       (ACTUAL_PARAM (NAME num))
     )
     (CALL_STMT (NAME printstr)
-      (ACTUAL_PARAM (LITERAL  squared is  ))
+      (ACTUAL_PARAM (STRING_LITERAL " squared is "))
     )
     (CALL_STMT (NAME printfloat)
       (ACTUAL_PARAM (CALL_STMT (NAME Square)
@@ -90,7 +118,7 @@ NULL ERROR IN ProcDecl
         ))
     )
     (RETURN_STMT)
-    
+
   )
 
 )

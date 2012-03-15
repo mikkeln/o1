@@ -18,8 +18,11 @@ public class OpExp extends Exp{
   @Override
   public String printAst(int offset) {
     String out = "(" + opname + " " + op + " ";
-    if (e1 != null) out += e1.printAst(offset + 2) + " ";
-    if (e2 != null) out += e2.printAst(offset + 2) + " ";
+    if (e1 != null || e2 != null) {
+      if (e1 != null) out += "\n" + spaces(offset+2) + e1.printAst(offset + 2);
+      if (e2 != null) out += "\n" + spaces(offset+2) + e2.printAst(offset + 2);
+      out += "\n" + spaces(offset);
+    }
     out += ")";
       
     return out;

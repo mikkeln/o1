@@ -18,7 +18,7 @@ public class CallStmt extends Stmt {
 
   public String printAst(int offset) {
     String out;
-    out = "(CALL_STMT (NAME " +  name + ")\n";
+    out = spaces(offset) + "(CALL_STMT (NAME " +  name + ")\n";
     
     if (params != null) {
       for (Exp e : params){
@@ -26,7 +26,7 @@ public class CallStmt extends Stmt {
       }
       out += "\n" + spaces(offset);
     }
-    out+= ")\n" + spaces(offset);
+    out+= ")\n";
     
     return out;
   }

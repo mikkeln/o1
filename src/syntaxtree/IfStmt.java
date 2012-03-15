@@ -15,23 +15,25 @@ public class IfStmt extends Stmt {
 
   public String printAst(int offset) {
     String out;
-    out = spaces(offset) + "(IF_STMT ( " +  exp.printAst(offset + 2) + " )\n";
+    out = spaces(offset) + "(IF_STMT " +  exp.printAst(offset + 2) + " \n";
     
     if (if_stmt != null) {
+      out += spaces(offset+2) + "(\n";
       for (Stmt is : if_stmt){
         out += is.printAst(offset + 4);
       }
+      out += spaces(offset+2) + ")\n";
     }
     
     out += "\n" + spaces(offset) + ")";
     if (else_stmt != null) {
-      out += " ELSE (";
+      out += " ELSE (\n";
       for (Stmt es : else_stmt){
         out += es.printAst(offset + 4);
       }
       out += spaces(offset) + ")\n" + spaces(offset);
     } else {
-      out += "\n" + spaces(offset);
+      out += "\n";
     }
 
     

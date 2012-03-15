@@ -13,9 +13,9 @@ Exp exp;
 	  String out;
 	  
 	  if(exp == null)
-	    out = "(RETURN_STMT)\n"+ spaces(offset);
+	    out = spaces(offset) + "(RETURN_STMT)\n";
 	  else
-	    out = "(RETURN_STMT " +  exp.printAst(offset + 2) + ")\n" + spaces(offset);
+	    out = spaces(offset) + "(RETURN_STMT " +  exp.printAst(offset + 2) + ")\n";
 
 	  return out;
 	}
