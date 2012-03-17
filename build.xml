@@ -79,6 +79,34 @@
 	</target>
 
 
+	<!-- Generate Java files using JFlex and CUP  -->
+	<target name="generate-wpa" depends="mkdir">
+		<jflex file="./grammars/oblig1-wpa.lex" destdir="src-gen"/>
+		<cup srcfile="./grammars/oblig1-wpa.cup" destdir="src-gen" interface="true" />
+	</target>
+
+	<!-- Compile Java Files and store in /build/classes directory  -->
+	<target name="compile-wpa" depends="generate-wpa">
+		<javac srcdir="${dir.src}" destdir="${dir.classes}" debug="true"
+
+			includes="**/*.java" classpathref="path-cup" sourcepath="${dir.src-gen}"/>
+		<javac srcdir="${dir.src-gen}" destdir="${dir.classes}" debug="true"
+
+			includes="**/*.java" classpathref="path-cup" sourcepath="${dir.src}" />
+	</target>
+
+	<!-- Main target  -->
+
+	<!-- Run the system  -->
+	<target name="run-wpa" depends="init">
+		<java classname="compiler.Compiler" classpathref="path-run">
+			<arg value="simpila-code/simple-wpa.d"/>
+			<arg value="simpila-ast/simple-wpa.ast"/>
+		</java>
+	</target>
+
+
+
 	<!-- Generic compile target. -->
 	<target name="generic-compile" depends="">
 		<javac srcdir="${dir.src-gen}" destdir="${dir.classes}" debug="true"
@@ -130,5 +158,6 @@
 			<arg value="./input-examples/test-eval.txt"/>
 		</java>
 	</target>
+
 
 </project>

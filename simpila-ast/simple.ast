@@ -33,21 +33,15 @@
 
     (ASSIGN_STMT
       (NAME retval)
-      (NEW Complex )
+      EXP OBJECT HAS NO STR DEF!
     )
     (ASSIGN_STMT
       ( . (NAME Real) (NAME retval))
-      (ARIT_OP + 
-        ( . (NAME Real) (NAME a))
-        ( . (NAME Real) (NAME b))
-      )
+      EXP OBJECT HAS NO STR DEF!
     )
     (ASSIGN_STMT
       ( . (NAME Imag) (NAME retval))
-      (ARIT_OP + 
-        ( . (NAME Imag) (NAME a))
-        ( . (NAME Imag) (NAME b))
-      )
+      EXP OBJECT HAS NO STR DEF!
     )
     (RETURN_STMT (NAME retval))
 
@@ -57,31 +51,15 @@
     (PARAM_DECL (TYPE int) (NAME a))
     (PARAM_DECL (TYPE int) (NAME b))
 
-    (IF_STMT (REL_OP > 
-        (NAME a)
-        (NAME b)
-      ) 
+    (IF_STMT (REL EXP> (NAME a) (NAME b) ) 
       (
         (RETURN_STMT (NAME a))
       )
 
-    ) ELSE (
-        (RETURN_STMT (NAME b))
     )
-        (IF_STMT (NOT  
-        (REL_OP > 
-          (NAME a)
-          (ARIT_OP + 
-            (NAME b)
-            (NAME b)
-          )
-        )
-      ) 
+    (IF_STMT (NOT EXP(REL EXP> (NAME a) EXP OBJECT HAS NO STR DEF! ) ) 
       (
-        (RETURN_STMT (ARIT_OP + 
-            (NAME a)
-            (NAME b)
-          ))
+        (RETURN_STMT EXP OBJECT HAS NO STR DEF!)
       )
 
     )
@@ -90,27 +68,25 @@
   )
 
   (PROC_DECL (NAME Main)(TYPE void)
+NULL ERROR IN ProcDecl
 
     (PROC_DECL (NAME Square)(TYPE float)
       (PARAM_DECL (TYPE float) (NAME val))
 
-      (RETURN_STMT (ARIT_OP ** 
-          (NAME val)
-          (FLOAT_LITERAL 2.0)
-        ))
+      (RETURN_STMT EXP OBJECT HAS NO STR DEF!)
 
     )
     (VAR_DECL (TYPE float) (NAME num))
 
     (ASSIGN_STMT
       (NAME num)
-      (FLOAT_LITERAL 6.480740)
+      EXP OBJECT HAS NO STR DEF!
     )
     (CALL_STMT (NAME printfloat)
       (ACTUAL_PARAM (NAME num))
     )
     (CALL_STMT (NAME printstr)
-      (ACTUAL_PARAM (STRING_LITERAL " squared is "))
+      (ACTUAL_PARAM EXP OBJECT HAS NO STR DEF!)
     )
     (CALL_STMT (NAME printfloat)
       (ACTUAL_PARAM (CALL_STMT (NAME Square)
