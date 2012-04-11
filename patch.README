@@ -1,0 +1,7 @@
+To install this patch you have to concatenate the text from build.xml.patch.xml too the old build.xml.
+If you did not changed anything in Compiler.java in assignment 1, it should be ok to just overwrite the old Compiler.java with the new one.
+
+If you do this the run target from assignment 1 will be broken because of the constructor in Compiler.java.
+It is not required that this target work and you can either safely remove the target, fix the target or simply ignore it.
+
+The rest of the files should be easely added in. 

@@ -1,5 +1,6 @@
 package syntaxtree;
 import java.util.List;
+import bytecode.CodeFile;
 
 public class Program {
 
@@ -7,6 +8,10 @@ public class Program {
 
   public Program(List<Decl> decls) {
     this.decls = decls;
+  }
+  
+  public void generateCode(CodeFile file) {
+  
   }
 
   public String printAst(){

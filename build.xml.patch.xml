@@ -1,0 +1,36 @@
+	<!-- Compile test classes -->
+	<target name="compile-test" depends="mkdir">
+		<javac srcdir="${dir.src}" destdir="${dir.classes}" debug="true"
+			includes="test/*.java" classpathref="path-cup" />
+	</target>
+
+	<!-- Run tests -->
+	<target name="test" depends="compile-test">
+		<java classname="test.Tester" classpathref="path-run" >
+			<arg value="tests"/>
+		</java>
+	</target>
+
+	<!-- Run compiler on example RunMe -->
+	<target name="compile-runme" depends="init">
+		<java classname="compiler.Compiler" classpathref="path-run">
+			<arg value="code-examples/RunMe.d"/>
+			<arg value="code-examples/RunMe.ast"/>
+			<arg value="code-examples/RunMe.bin"/>
+		</java>
+	</target>
+
+	<!-- List example RunMe -->
+	<target name="list-runme" depends="init">
+		<java classname="runtime.VirtualMachine" classpathref="path-run">
+			<arg value="-l"/>
+			<arg value="code-examples/RunMe.bin"/>
+		</java>
+	</target>
+
+	<!-- Run vm on example RunMe -->
+	<target name="run-runme" depends="init">
+		<java classname="runtime.VirtualMachine" classpathref="path-run">
+			<arg value="code-examples/RunMe.bin"/>
+		</java>
+	</target>
