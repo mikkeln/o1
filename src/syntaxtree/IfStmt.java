@@ -13,6 +13,44 @@ public class IfStmt extends Stmt {
     this.else_stmt = else_stmt;
   }
 
+    public String semanticChecker(SymbolTable table, String type){
+	SymbolTable eres;
+	String one, two;
+	//String eres;
+	String test;
+
+	if(exp == null)
+	    return "syntax error";
+
+	eres = exp.semanticChecker(table);
+	//Check that bool
+	if(eres.type != "bool")
+	    return "semantic error";
+
+	if(if_stmt != null){
+	    for(Stmt s : if_stmt){
+		if(s == null) return "syntax error";
+		one = s.semanticChecker(table, type);
+		if(one == "semantic error") return one;
+	
+	    } 
+	}
+
+	if(else_stmt != null){
+	    for(Stmt s : else_stmt){
+		if(s == null) return "syntax error";
+		two = s.semanticChecker(table, type);
+		if(two == "semantic error") return two;
+	    } 
+	}
+
+	return "no error";
+    }
+
+
+
+
+
   public String printAst(int offset) {
     String out;
     out = spaces(offset) + "(IF_STMT " +  exp.printAst(offset + 2) + " \n";

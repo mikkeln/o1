@@ -161,9 +161,9 @@ exp                     ::= exp:e1 log_op:op exp:e2
                               {: RESULT = v; :}
                         ;
 
-var                     ::= ID:name {: RESULT = new NameExp(name); :} 
+var                     ::= ID:name {: RESULT = new NameExp(name, false); :} 
                             | exp:ex DOT ID:name 
-                              {: RESULT = new NameExp(name, ex); :}
+                              {: RESULT = new NameExp(name, ex, false); :}
                         ;
 
 log_op                  ::= AND         {: RESULT = "&&"; :} 
@@ -248,7 +248,7 @@ call_params             ::= actual_param:p {: List<Exp> l = new LinkedList<Exp>(
                             {: if (p != null) cp.add(p); RESULT = cp; :}
                         ;
 
-actual_param            ::= REFERENCE var:v   {: RESULT = v; :}
+actual_param            ::= REFERENCE ID:name   {: RESULT = new NameExp(name, true); :}
                             | exp:e           {: RESULT = e; :}
                             |                 {: RESULT = null; :}
 
