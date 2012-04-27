@@ -176,7 +176,7 @@
 
 	<!-- Run compiler on example RunMe -->
 	<target name="compile-runme" depends="init">
-		<java classname="compiler.Compiler" classpathref="path-run">
+		<java classname="compiler.Compiler" classpathref="path-run" fork="true">
 			<arg value="code-examples/RunMe.d"/>
 			<arg value="code-examples/RunMe.ast"/>
 			<arg value="code-examples/RunMe.bin"/>

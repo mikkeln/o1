@@ -19,19 +19,22 @@ public class Compiler {
         this.binFilename = binFilename;
     }
     public int compile() throws Exception {
+                System.out.println("JOA");
         InputStream inputStream = null;
         inputStream = new FileInputStream(this.inFilename);
         Lexer lexer = new Lexer(inputStream);
         parser parser = new parser(lexer);
-        Program program;
+        Program program = null;
         try {
             program = (Program)parser.parse().value;
         } catch (Exception e) {
             // Do something here?
-            throw e; // Or something.
+            //throw e; // Or something.
+            System.out.println("MORDIIIIIIIIIIIIII");
         }
         // Check semanics.
-        if(false){ // If it is all ok:
+        if(program != null){ // If it is all ok:
+        System.out.println("NØØØØY");
             writeAST(program);
             generateCode(program);
             return 0;
@@ -57,6 +60,7 @@ public class Compiler {
     public static void main(String[] args) {
         Compiler compiler = new Compiler(args[0], args[1], args[2]);
         int result;
+        System.out.println("HORE");
         try {
             result = compiler.compile();
             if(result == 1){

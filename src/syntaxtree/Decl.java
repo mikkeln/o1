@@ -1,9 +1,14 @@
 package syntaxtree;
+import bytecode.CodeFile;
 
 public class Decl {
 
   public String printAst(int offset) {
     return "DECL OBJECT HAS NO STR DEF!";
+  }
+  
+  public void generateCode(CodeFile file) {
+    System.out.println("DECL!");
   }
   
   public String spaces(int size){
