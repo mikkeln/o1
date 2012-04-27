@@ -16,6 +16,8 @@ public class VirtualMachine {
 	public void run() throws Exception {
 		load();
 //		System.out.println("START");
+		String list = this.interpreter.list();
+		System.out.print(list);
 		this.interpreter.run();
 //		System.out.println("STOP");
 	}

@@ -1,4 +1,5 @@
 package syntaxtree;
+import bytecode.CodeFile;
 
 public class Decl {
 
@@ -7,10 +8,17 @@ public class Decl {
     return "DECL OBJECT HAS NO STR DEF!";
   }
   
+
   public String semanticChecker(SymbolTable table){
       return "no error"; //No errors
   }
 
+
+
+  public void generateCode(CodeFile file) {
+    System.out.println("DECL!");
+  }
+  
 
   public String spaces(int size){
     String out = "";

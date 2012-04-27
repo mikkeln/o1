@@ -19,23 +19,41 @@ public class Compiler {
         this.binFilename = binFilename;
     }
     public int compile() throws Exception {
+                System.out.println("JOA");
         InputStream inputStream = null;
         inputStream = new FileInputStream(this.inFilename);
         Lexer lexer = new Lexer(inputStream);
         parser parser = new parser(lexer);
+
         Program program;
       try {
            program = (Program)parser.parse().value;
         } catch (Exception e) {
             // Do something here?
         throw e; // Or something.
+/*
+        Program program = null;
+        try {
+            program = (Program)parser.parse().value;
+        } catch (Exception e) {
+            // Do something here?
+            //throw e; // Or something.
+            System.out.println("MORDIIIIIIIIIIIIII");*/
+
         }
 	String finalres = checkSemantics(program);
         // Check semanics.
+
         if(finalres != "syntax error" && finalres != "semantic error"){ // If it is all ok:
 	//System.out.println("finalres : " + finalres);	
             //writeAST(program);
             //generateCode(program);
+/*
+        if(program != null){ // If it is all ok:
+        System.out.println("NØØØØY");
+            writeAST(program);
+            generateCode(program);
+*/
             return 0;
         } else if (finalres == "syntax error"){ // If there is a SYNTAX ERROR (Should not get that for the tests):
 	//System.out.println("finalres : " + finalres);
@@ -69,6 +87,7 @@ public class Compiler {
     public static void main(String[] args) {
         Compiler compiler = new Compiler(args[0], args[1], args[2]);
         int result;
+        System.out.println("HORE");
         try {
             result = compiler.compile();
             if(result == 1){

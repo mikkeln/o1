@@ -50,7 +50,6 @@ proc test(){
     max := Max(y, x);
 }
 proc printStr(string str) {
-//    str := "Navn " + str;
     printstr(str);
 }
 proc inOutTest(){

@@ -1,6 +1,7 @@
 package syntaxtree;
 import java.util.List;
-
+import bytecode.CodeFile;
+import bytecode.CodeStruct;
 public class ClassDecl extends Decl{
     
     String name;
@@ -42,7 +43,25 @@ public class ClassDecl extends Decl{
 
 	return "no error"; //All GOOOOOOOOOOD!
     }
+
+
+  public void generateCode(CodeFile file) {
+    System.out.println("MAKIN' SOME CLASS CODE");
     
+    CodeStruct struct = new CodeStruct(this.name);
+    
+    if (vlist != null) {
+      for (Decl v: vlist){
+        if (v == null) {
+	    //      out += "NULL ERROR IN ClassDecl\n";
+          continue;
+        }
+        // Add decl to to struct!
+      }
+    }
+  }
+
+
 
     @Override
 	public String printAst(int offset) {
