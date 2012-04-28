@@ -11,6 +11,33 @@ public class WhileStmt extends Stmt {
     this.while_stmt = while_stmt;
   }
 
+    @Override
+	public String semanticChecker(SymbolTable table, String type){
+	SymbolTable res;	
+	
+	if(exp == null)
+	    return "syntax error";
+		
+	
+	res = exp.semanticChecker(table);
+	
+	if(res.type != "bool")
+	    return "semantic error";
+
+
+	if(while_stmt != null){
+	    for(Stmt s : while_stmt){
+		if(s == null) return "syntax error";
+		s.semanticChecker(table, type);	       
+	    }
+	}
+	return "no error";
+    }
+
+
+
+
+
   public String printAst(int offset) {
     String out;
     out = spaces(offset) + "(WHILE_STMT ( " +  exp.printAst(offset + 2) + " )\n";

@@ -20,7 +20,18 @@ import java_cup.runtime.*;
 
 %}
 
+InputCharacter = [^\r\n]
 LineTerminator = \r|\n|\r\n
+
+/* comments */
+Comment = {TraditionalComment} | {EndOfLineComment} | {DocumentationComment}
+
+TraditionalComment   = "/*" [^*] ~"*/" | "/*" "*"+ "/"
+EndOfLineComment     = "//" {InputCharacter}* {LineTerminator}
+DocumentationComment = "/**" {CommentContent} "*"+ "/"
+CommentContent       = ( [^*] | \*+ [^/*] )*
+
+
 WhiteSpace		= {LineTerminator} | [ \t\f]
 Identifier = [:jletter:] [:jletterdigit:]*
 StringLiteral = \" [A-Za-z]* \"
@@ -34,6 +45,7 @@ Name = [A-Za-z] [A-Za-z0-9]+  //<-- Not working :(
 %%
   <YYINITIAL>{
         {WhiteSpace}                    {}
+	{Comment}                       {}
         "class"                         { return symbol(sym.CLASS); }
         "proc"                          { return symbol(sym.PROCEDURE); }
         "var"                           { return symbol(sym.VARIABLE); }

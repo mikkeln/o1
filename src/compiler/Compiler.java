@@ -24,26 +24,53 @@ public class Compiler {
         inputStream = new FileInputStream(this.inFilename);
         Lexer lexer = new Lexer(inputStream);
         parser parser = new parser(lexer);
+
+        Program program;
+      try {
+           program = (Program)parser.parse().value;
+        } catch (Exception e) {
+            // Do something here?
+        throw e; // Or something.
+/*
         Program program = null;
         try {
             program = (Program)parser.parse().value;
         } catch (Exception e) {
             // Do something here?
             //throw e; // Or something.
-            System.out.println("MORDIIIIIIIIIIIIII");
+            System.out.println("MORDIIIIIIIIIIIIII");*/
+
         }
+	String finalres = checkSemantics(program);
         // Check semanics.
+
+        if(finalres != "syntax error" && finalres != "semantic error"){ // If it is all ok:
+	//System.out.println("finalres : " + finalres);	
+            //writeAST(program);
+            //generateCode(program);
+/*
         if(program != null){ // If it is all ok:
         System.out.println("NØØØØY");
             writeAST(program);
             generateCode(program);
+*/
             return 0;
-        } else if (false){ // If there is a SYNTAX ERROR (Should not get that for the tests):
+        } else if (finalres == "syntax error"){ // If there is a SYNTAX ERROR (Should not get that for the tests):
+	//System.out.println("finalres : " + finalres);
             return 1;
         } else { // If there is a SEMANTIC ERROR (Should get that for the test with "_fail" in the name):
+	//System.out.println("finalres : " + finalres);
             return 2;
         }
     }
+ 
+    private String checkSemantics(Program program) throws Exception {
+	
+	String res = program.semanticChecker();
+	return res;
+    }
+
+
     private void writeAST(Program program) throws Exception {
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(this.astFilename));
         bufferedWriter.write(program.printAst());
@@ -68,13 +95,14 @@ public class Compiler {
             } else if(result == 2){
                 System.out.println(compiler.error);
             }
-            System.exit(result);
+            //System.exit(result);
         } catch (Exception e) {
-            System.out.println("ERROR: " + e);
+           System.out.println("ERROR: " + e);
             // If unknown error.
-            System.exit(3);
+          System.exit(3);
         }
     }
+
     public static String indent(int indent){
         String result = "";
         for(int i=0;i<indent; i++){

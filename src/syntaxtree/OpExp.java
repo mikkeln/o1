@@ -15,6 +15,97 @@ public class OpExp extends Exp{
     this.op = op;
   }
 
+@Override
+    public SymbolTable semanticChecker(SymbolTable table){
+    SymbolTable tmp, located;
+
+    System.out.println("OPEXP");
+
+    //if not exp
+    if(e2 == null && e1 != null){ //opname.equal(NOT); NOT
+	SymbolTable t;
+
+	t = e1.semanticChecker(table);
+
+	if(!t.type.equals("bool"))
+	    return null;
+	else 
+	    return t;
+    }
+
+
+    if(opname.equals("NEW")){ //NEW
+	tmp = table;
+	
+	//check this level and higher
+	while (tmp != null){
+	    if ((located =tmp.locateWithinScope(op)) != null){ //found symbol
+		System.out.println("located.name " + located.name);
+		return located;
+	    }
+	    tmp = tmp.ascend();
+	}
+	return null;
+    }
+
+
+    if(opname.equals("REL_OP")){ //if rel exp
+	if(e1 == null || e2 == null) return null;
+
+	SymbolTable res1, res2;
+
+	res1 = e1.semanticChecker(table);
+	res2 = e2.semanticChecker(table);
+
+	SymbolTable b = new SymbolTable("bool", "not valid");
+
+	if(res1.type.equals(res2.type)){
+	    return b;//return bool
+	}else if(res1.type.equals("float") && res2.type.equals("int")){
+	    return b;//return bool
+	}else{
+	    return null;
+	}
+    }
+
+
+    if(opname.equals("ARIT_OP")){//ARIT OP
+	if (e1 == null || e2 == null) return null;
+
+	SymbolTable res1, res2;
+
+	res1 = e1.semanticChecker(table);
+	res2 = e2.semanticChecker(table);
+
+
+	if(res1.type.equals(res2.type)){
+	    return res1;
+	}else if(res1.type.equals("float") && res2.type.equals("int")){
+	    return res1;
+	}else{
+	    return null;
+	}
+    }
+
+
+
+    /* if(e1 == null || e2 == null)
+	return null;
+    
+    if (e1.semanticChecker(table) == "semantic error" || e1.semanticChecker(table) == "synax error")
+	return e1.semanticChecker(table);
+
+    if (e2.semanticChecker(table) == "semantic error" || e2.semanticChecker(table) == "synax error")
+	return e2.semanticChecker(table);
+
+    if(opname == "REL_OP"){
+	//return "bool";
+	}*/
+
+    return null;
+}
+
+
   @Override
   public String printAst(int offset) {
     String out = "(" + opname + " " + op + " ";

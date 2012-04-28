@@ -8,6 +8,30 @@ Exp exp;
 		this.exp = exp;
 	}
 
+    public String semanticChecker(SymbolTable table, String type){
+
+	if (type != "void" && exp == null)
+	    return "semantic error";
+
+	if(type == "void" && exp != null)
+	    return "semantic error";
+
+	if(exp == null)
+	    return "ret";
+
+
+	SymbolTable res = exp.semanticChecker(table);
+	//System.out.println("res : " + res);
+
+	if (res.type.equals("null")) return "ret";
+
+	if (type != res.type) return "semantic error";
+
+	return "ret";
+    }
+
+
+
 
 	public String printAst(int offset){
 	  String out;
