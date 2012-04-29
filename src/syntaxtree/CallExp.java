@@ -18,7 +18,6 @@ public class CallExp extends Exp {
 	Boolean found = false;
 	SymbolTable res;
 
-	//System.out.println("************call exp : name " + name);
 
 	tmp = table;
 	while(tmp != null){
@@ -31,7 +30,6 @@ public class CallExp extends Exp {
 
 	if(found){
 	    int i = 0;
-	    //System.out.println("found");
 	    if(params.size() != sym.nrOfParams())
 		return null;
 
@@ -41,19 +39,12 @@ public class CallExp extends Exp {
 		if (i < sym.nrOfParams()){
 
 		    String parName = sym.getParam(i);
-		    //System.out.println("parName: " + parName + " sym.name " + sym.name);
 		    
 		    SymbolTable param = sym.locateWithinScope(parName);
 		    if(param == null){
-			//if(sym.name.equals())
 
-
-
-			//System.out.println("param was null +++++++");
 			return null;
 		    }else{
-			//System.out.println("res.name: " + res.name + " param.name: " + param.name);
-			//System.out.println("res.byref: " + res.byRef + " param.byref: " + param.byRef);
 
 			if(!param.type.equals(res.type))
 			    return null;
@@ -62,17 +53,7 @@ public class CallExp extends Exp {
 			    return null;
 		    }
 
-
-		    /*	    if(!res.type.equals(sym.getParam(i))){
-			if(res.type.equals("int") && sym.getParam(i).equals("float"))
-			    continue;
-			
-			//	System.out.println("here! res: " + res + "sym.param" + sym.getParam(i));
-			return null;
-			}*/
 		}else{
-
-		    // System.out.println("hit else, params" + sym.nrOfParams() + " sym.name " + sym.name);
 		    return null;
 		}
 		i++;

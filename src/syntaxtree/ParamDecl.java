@@ -14,8 +14,6 @@ public class ParamDecl extends Decl {
     @Override
 	public String semanticChecker(SymbolTable table){
 
-	//System.out.println("PARAMDECL");
-
 	SymbolTable top = table;
 
 	while(top.parent != null)
@@ -28,8 +26,6 @@ public class ParamDecl extends Decl {
 	//create new entry
        	SymbolTable newtable = table.newEntry(type, name);
 	newtable.byRef = byRef;
-
-	//	System.out.println("new added name and type: " + newtable.name + " " + newtable.type);
 
 	return newtable.name;
     }

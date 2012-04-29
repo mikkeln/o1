@@ -24,12 +24,11 @@ public class ClassDecl extends Decl{
 	    return "semantic error";
 
 	//Add entry to table
-	SymbolTable tmp = table.newEntry(name, name); //should type be class?
+	SymbolTable tmp = table.newEntry(name, name); 
       
 	//Recursive call down
 	if (vlist != null) {
 	    for (Decl v: vlist){
-		System.out.println("...in for...");
 		if(v == null)
 		    return "syntax error"; //syntax error
 
@@ -37,10 +36,6 @@ public class ClassDecl extends Decl{
 		   return "semantic error"; //Some error
 	    }
 	}    
-
-	//if(tmp.locateWithinScope("Attr") != null)
-	    // System.out.println("exists in scope");
-
 	return "no error"; //All GOOOOOOOOOOD!
     }
 

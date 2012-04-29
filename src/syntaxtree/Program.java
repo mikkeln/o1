@@ -58,8 +58,6 @@ public class Program {
 	entry = table.newEntry("string", "printline");
 	entry.addParam("string");
 
-	if(table.locate("printfloat") != null)
-	    System.out.println("success");
 
     }
 
@@ -67,13 +65,11 @@ public class Program {
 
     public String semanticChecker(){
       String res;
-      int counter = 0;
       Boolean hasMain = false;
 
       addBuiltInn(table);
 
       for (Decl d : decls){
-	  // System.out.println("COUNTER : " + counter++);
         if (d == null){
             return "syntax error"; //syntax error
         }

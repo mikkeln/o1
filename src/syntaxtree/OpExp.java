@@ -19,8 +19,6 @@ public class OpExp extends Exp{
     public SymbolTable semanticChecker(SymbolTable table){
     SymbolTable tmp, located;
 
-    System.out.println("OPEXP");
-
     //if not exp
     if(e2 == null && e1 != null){ //opname.equal(NOT); NOT
 	SymbolTable t;
@@ -40,7 +38,6 @@ public class OpExp extends Exp{
 	//check this level and higher
 	while (tmp != null){
 	    if ((located =tmp.locateWithinScope(op)) != null){ //found symbol
-		System.out.println("located.name " + located.name);
 		return located;
 	    }
 	    tmp = tmp.ascend();

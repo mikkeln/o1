@@ -11,8 +11,6 @@ public class VarDecl extends Decl {
     
     @Override
     public String semanticChecker(SymbolTable table){
-	
-	//System.out.println("VARDECL");
 
 	//go to top symboltable level
 	SymbolTable top = table;
@@ -27,7 +25,6 @@ public class VarDecl extends Decl {
 
 	//create new entry
 	table.newEntry(type, name);
-	//System.out.println("Added : " + name + " to class/proc: " + table.name);
 
 	return type; //yeah baby!
     }
