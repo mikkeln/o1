@@ -21,14 +21,9 @@ public class CallStmt extends Stmt {
 	Boolean found = false;
 	SymbolTable res;
 
-	//System.out.println("callstmt with name: " + name);
-	
-
 	tmp = table;
 	while(tmp != null){
-	    //System.out.println("while");
 	    if((sym = tmp.locateWithinScope(name)) != null) {
-		//System.out.println("WTF");
 		found = true;
 		break;
 	    }
@@ -40,16 +35,13 @@ public class CallStmt extends Stmt {
 	    if(params.size() != sym.nrOfParams())
 		return "semantic error";
 
-	    //System.out.println("found");
 	    for(Exp e : params){
 		res = e.semanticChecker(table);
 		if (res == null) return "semantic error";
 
-		//System.out.println("In for loop");
 
 		if (i < sym.nrOfParams()){
 		    String parName = sym.getParam(i);
-		    //System.out.println("parName :" + sym.getParam(i) + " sym.name: " + sym.name);
 
 		    SymbolTable param = sym.locateWithinScope(parName);
 		    if(param == null){
@@ -65,13 +57,10 @@ public class CallStmt extends Stmt {
 			}else if(sym.name.equals("printline") && res.type.equals("string")){
 			    return type;
 			}else{
-			    //  System.out.println("sym.name : " + sym.name + " sym.paramsize(): " + sym.nrOfParams());
 			    return "semantic error";
 			}
        			
 		    }else{
-			//System.out.println("res.name: " + res.name + " param.name: " + param.name);
-			//System.out.println("res.byref: " + res.byRef + " param.byref: " + param.byRef);
 
 			if(!param.type.equals(res.type))
 			    return "semantic error";
@@ -85,12 +74,8 @@ public class CallStmt extends Stmt {
 		}
 		i++;
 	    }
-	    
-	    //System.out.println("sym.name: " + sym.name);
-
 	    return type;
 	}
-	//System.out.println("*********************");
 	return "semantic error";
     }
 

@@ -26,14 +26,6 @@ public class ProcDecl extends Decl{
 	Boolean haveRet = false, haveVal = false;
 	SymbolTable tmp;
 
-
-	SymbolTable sb = table.locate("Foo");
-	if(sb != null){
-	    SymbolTable m = sb.locateWithinScope("Attr");
-	    // System.out.println("----Foo, with " + m.name + " element in table");
-
-	}
-
 	//Check that return type exists
 	if (!type.equals("void") && !type.equals("int") && 
 	    !type.equals("bool") && !type.equals("string") && !type.equals("float")){
@@ -64,13 +56,6 @@ public class ProcDecl extends Decl{
 	    }
 	}
 
-	sb = table.locate("Foo");
-	if(sb != null){
-	    SymbolTable m = sb.locateWithinScope("Attr");
-	    //System.out.println("----Foo, with " + m.name + " element in table");
-
-	}
-
 
 
 	//Add proc to table, check entire table
@@ -85,12 +70,6 @@ public class ProcDecl extends Decl{
 	//add to current level
 	SymbolTable proc = table.newEntry(type, name);
 	
-	sb = table.locate("Foo");
-	if(sb != null){
-	    SymbolTable m = sb.locateWithinScope("Attr");
-	    System.out.println("----Foo, with " + m.name + " element in table");
-
-	}
 
 	//continue in proc
 	if (parlist != null){
@@ -99,18 +78,11 @@ public class ProcDecl extends Decl{
 		    return "semantic error";
 		if((res = p.semanticChecker(proc)) == null)
 		    return "semantic error";
-		
-	       	System.out.println("added param: " + res  + " in proc " + name);
+
 		proc.addParam(res);
 	    }
 	}
 
-	sb = table.locate("Foo");
-	if(sb != null){
-	    SymbolTable m = sb.locateWithinScope("Attr");
-	    System.out.println("----Foo, with " + m.name + " element in table");
-
-	}
 	
 	if (decllist != null){
 	    for(Decl d : decllist){

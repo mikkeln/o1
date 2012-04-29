@@ -21,7 +21,6 @@ Exp exp;
 
 
 	SymbolTable res = exp.semanticChecker(table);
-	//System.out.println("res : " + res);
 
 	if (res.type.equals("null")) return "ret";
 

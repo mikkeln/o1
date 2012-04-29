@@ -15,14 +15,7 @@ public class LiteralExp extends Exp {
 
     @Override
     public SymbolTable semanticChecker(SymbolTable table){
-
-	//	System.out.println("LITERALEXP");
 	SymbolTable sym = new SymbolTable(litname.toLowerCase(), value);
-
-	/*	if(litname.equals("string")){
-	    sym = new SymbolTable(value, litname.toLowerCase());
-	    return sym;
-	    }*/
 
 	return sym;
     }
