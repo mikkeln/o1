@@ -41,16 +41,27 @@ public class VarDecl extends Decl {
   // Add variable to CodeStruct
   @Override
   public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc) {
-    System.out.println("ADDING VAR '" + this.name + "' TO STRUCT ");
     
-    if(type.equals("float")) 
-      struct.addVariable(this.name, FloatType.TYPE);
-	  else if(type.equals("int"))
-      struct.addVariable(this.name, IntType.TYPE);
-	  else if(type.equals("boolean"))
-      struct.addVariable(this.name, BoolType.TYPE);
-	  else if(type.equals("string"))
-      struct.addVariable(this.name, StringType.TYPE);
+    //Only CodeFile give, assume global variable
+    if ((file != null) && (struct == null) && (proc == null) ){
+      System.out.println("ADDING VAR '" + this.name + "' TO GLOBAL SCOPE");
+      file.addVariable(this.name);
+    }
+    
+    // If struct is given we assume struct declaration
+    else if (struct != null) {
+      System.out.println("ADDING VAR '" + this.name + "' TO STRUCT");
+      
+      if(type.equals("float")) 
+        struct.addVariable(this.name, FloatType.TYPE);
+	    else if(type.equals("int"))
+        struct.addVariable(this.name, IntType.TYPE);
+	    else if(type.equals("boolean"))
+        struct.addVariable(this.name, BoolType.TYPE);
+	    else if(type.equals("string"))
+        struct.addVariable(this.name, StringType.TYPE);
+    
+    }
   }
 
 
