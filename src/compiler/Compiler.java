@@ -19,7 +19,7 @@ public class Compiler {
         this.binFilename = binFilename;
     }
     public int compile() throws Exception {
-                System.out.println("JOA");
+                System.out.println("Starting Compile()");
         InputStream inputStream = null;
         inputStream = new FileInputStream(this.inFilename);
         Lexer lexer = new Lexer(inputStream);
@@ -38,9 +38,9 @@ public class Compiler {
 	System.out.println("finalres : " + finalres);
 
         if(finalres != "syntax error" && finalres != "semantic error" && program != null){ // If it is all ok:
-		System.out.println("NØØØØY");	
+		      System.out.println("--- Starting code generation ---");	
         	//writeAST(program);
-        	//generateCode(program);
+        	generateCode(program);
 		
             return 0;
         } else if (finalres == "syntax error"){ // If there is a SYNTAX ERROR (Should not get that for the tests):
@@ -75,7 +75,6 @@ public class Compiler {
     public static void main(String[] args) {
         Compiler compiler = new Compiler(args[0], args[1], args[2]);
         int result;
-        System.out.println("HORE");
         try {
             result = compiler.compile();
             if(result == 1){

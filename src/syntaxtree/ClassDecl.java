@@ -45,23 +45,27 @@ public class ClassDecl extends Decl{
 
 
     public void generateCode(CodeFile file/*, CodeStruct struct, CodeProcedure proc*/) {
-    System.out.println("MAKIN' SOME CLASS CODE");
+    System.out.println("CREATING STRUCT '" + this.name + "'");
     
+    file.addStruct(this.name);
     CodeStruct struct = new CodeStruct(this.name);
 
-
-    
     if (vlist != null) {
       for (Decl v: vlist){
         if (v == null) {
 	    //      out += "NULL ERROR IN ClassDecl\n";
           continue;
         }
-	//decl.generateCode(file, struct, null);
 
         // Add decl to to struct!
+        // Ugly casting, but everything is stored as Decl :/
+        ((VarDecl)v).generateCode(struct);
+
       }
     }
+    
+    file.updateStruct(struct);    
+    System.out.println("DONE MAKING STRUCT '" + this.name + "'");
   }
 
 

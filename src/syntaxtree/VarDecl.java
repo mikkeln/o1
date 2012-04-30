@@ -1,7 +1,9 @@
 package syntaxtree;
 import bytecode.*;
-/*import bytecode.CodeFile;
 import bytecode.CodeStruct;
+import bytecode.type.*;
+
+/*import bytecode.CodeFile;
 import byteCode.CodeProcedure;*/
 
 public class VarDecl extends Decl {
@@ -37,7 +39,19 @@ public class VarDecl extends Decl {
     }
     */
 
-
+  // Add variable to CodeStruct
+  public void generateCode(CodeStruct struct) {
+    System.out.println("ADDING VAR '" + this.name + "' TO STRUCT ");
+    
+    if(type.equals("float")) 
+      struct.addVariable(this.name, FloatType.TYPE);
+	  else if(type.equals("int"))
+      struct.addVariable(this.name, IntType.TYPE);
+	  else if(type.equals("boolean"))
+      struct.addVariable(this.name, BoolType.TYPE);
+	  else if(type.equals("string"))
+      struct.addVariable(this.name, StringType.TYPE);
+  }
 
 
     @Override

@@ -13,7 +13,7 @@ public class Program {
   }
   
   public void generateCode(CodeFile file) {
-    System.out.println("MAKIN' BACON");
+    System.out.println("MAKIN' BACON (Main program node)");
     
     for (Decl decl : decls) {
       if (decl == null) { 
