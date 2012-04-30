@@ -14,7 +14,8 @@ public class ClassDecl extends Decl{
     
     @Override
 	public String semanticChecker(SymbolTable table){
-	
+	String test;
+
 	//Check symboltable /entire table?
 	SymbolTable top = table;
 	while(top.parent != null)
@@ -32,18 +33,23 @@ public class ClassDecl extends Decl{
 		if(v == null)
 		    return "syntax error"; //syntax error
 
-		if(v.semanticChecker(tmp) == null || v.semanticChecker(tmp) == null)
-		   return "semantic error"; //Some error
+
+		test = v.semanticChecker(tmp);
+		if(test.equals("semantic error") || test.equals("syntax error")){
+		    return "semantic error"; //Some error
+		}
 	    }
 	}    
 	return "no error"; //All GOOOOOOOOOOD!
     }
 
 
-  public void generateCode(CodeFile file) {
+    public void generateCode(CodeFile file/*, CodeStruct struct, CodeProcedure proc*/) {
     System.out.println("MAKIN' SOME CLASS CODE");
     
     CodeStruct struct = new CodeStruct(this.name);
+
+
     
     if (vlist != null) {
       for (Decl v: vlist){
@@ -51,6 +57,8 @@ public class ClassDecl extends Decl{
 	    //      out += "NULL ERROR IN ClassDecl\n";
           continue;
         }
+	//decl.generateCode(file, struct, null);
+
         // Add decl to to struct!
       }
     }

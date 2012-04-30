@@ -19,12 +19,11 @@ Exp exp;
 	if(exp == null)
 	    return "ret";
 
-
 	SymbolTable res = exp.semanticChecker(table);
 
 	if (res.type.equals("null")) return "ret";
 
-	if (type != res.type) return "semantic error";
+	if (!type.equals(res.type)) return "semantic error";
 
 	return "ret";
     }

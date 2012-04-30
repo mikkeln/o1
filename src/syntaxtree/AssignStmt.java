@@ -15,14 +15,16 @@ Exp exp;
 	public String semanticChecker(SymbolTable table, String type){
 	SymbolTable vres, eres;
 
-		
+	
        	vres = var.semanticChecker(table);
 	if(vres == null)
 	    return "semantic error"; //error
 
+
 	eres = exp.semanticChecker(table);
 	if(eres == null)
 	    return "semantic error"; //error	
+
 
 	if(vres.type.equals(eres.type)){
 	    return vres.type;

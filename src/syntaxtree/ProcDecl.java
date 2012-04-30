@@ -1,5 +1,6 @@
 package syntaxtree;
 import java.util.List;
+import bytecode.*;
 
 public class ProcDecl extends Decl{
 
@@ -18,6 +19,17 @@ public class ProcDecl extends Decl{
     this.decllist = decllist;
     this.stmtlist = stmtlist;
   }
+
+    @Override
+    public void generateCode(CodeFile file/*, CodeStruct struct, CodeProcedure proc*/){
+
+
+
+
+
+    }
+
+
 
 
     @Override
@@ -44,6 +56,7 @@ public class ProcDecl extends Decl{
 	}
 	
 
+
 	if(type.equals("void"))
 	    haveRet = true;
 
@@ -57,7 +70,6 @@ public class ProcDecl extends Decl{
 	}
 
 
-
 	//Add proc to table, check entire table
 	SymbolTable top = table;
 	while(top.parent != null){
@@ -69,42 +81,47 @@ public class ProcDecl extends Decl{
 
 	//add to current level
 	SymbolTable proc = table.newEntry(type, name);
-	
+
+
 
 	//continue in proc
 	if (parlist != null){
 	    for(Decl p : parlist){
 		if (p == null)
 		    return "semantic error";
-		if((res = p.semanticChecker(proc)) == null)
+		if((res = p.semanticChecker(proc)).equals("semantic error"))
 		    return "semantic error";
 
 		proc.addParam(res);
 	    }
 	}
 
+
+
 	
 	if (decllist != null){
 	    for(Decl d : decllist){
 		if (d == null)
 		    return "syntax error";
-		if((res = d.semanticChecker(proc)) == "semantic error")
+		if((res = d.semanticChecker(proc)).equals("semantic error"))
 		    return "semantic error";
 	    }
 	}
-	
 	
 	if (stmtlist != null){
 	    for(Stmt s : stmtlist){
 		if (s == null)
 		    return "syntax error";
-		if((res = s.semanticChecker(proc, type)) == "semantic error")
+
+		res = s.semanticChecker(proc, type);
+		if(res.equals("semantic error")){
 		    return "semantic error";
+		}
 		if(res.equals("ret")) 
 		    haveRet = true;
 	    }
 	}
-	
+
 	if(haveRet == false)
 	    return "semantic error";
 	

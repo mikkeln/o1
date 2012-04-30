@@ -34,14 +34,16 @@ public class OpExp extends Exp{
 
     if(opname.equals("NEW")){ //NEW
 	tmp = table;
-	
+
 	//check this level and higher
 	while (tmp != null){
 	    if ((located =tmp.locateWithinScope(op)) != null){ //found symbol
 		return located;
 	    }
 	    tmp = tmp.ascend();
+
 	}
+
 	return null;
     }
 

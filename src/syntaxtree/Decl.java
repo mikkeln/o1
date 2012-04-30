@@ -15,7 +15,7 @@ public class Decl {
 
 
 
-  public void generateCode(CodeFile file) {
+    public void generateCode(CodeFile file/*, CodeStruct struct, CodeProcedure proc*/) {
     System.out.println("DECL!");
   }
   

@@ -28,22 +28,39 @@ public class CallExp extends Exp {
 	    tmp = tmp.ascend();
 	}
 
+
 	if(found){
+
 	    int i = 0;
 	    if(params.size() != sym.nrOfParams())
 		return null;
 
+
 	    for(Exp e : params){
 		res = e.semanticChecker(table);
-		if(res == null) return null;
+		if (res == null) return null;
+
 		if (i < sym.nrOfParams()){
-
 		    String parName = sym.getParam(i);
-		    
-		    SymbolTable param = sym.locateWithinScope(parName);
-		    if(param == null){
 
-			return null;
+		    SymbolTable param = sym.locateWithinScope(parName);
+
+		    if(param == null){
+			if(sym.name.equals("readline") && res.type.equals("void")){
+			    return sym;
+			}else if(sym.name.equals("printint") && res.type.equals("int")){
+			    return sym;
+			}else if(sym.name.equals("printfloat") && 
+				 (res.type.equals("float") || res.type.equals("int"))){
+			    return sym;
+			}else if(sym.name.equals("printstr") && res.type.equals("string")){
+			    return sym;
+			}else if(sym.name.equals("printline") && res.type.equals("string")){
+			    return sym;
+			}else{
+			    return null;
+			}
+       			
 		    }else{
 
 			if(!param.type.equals(res.type))
@@ -58,6 +75,7 @@ public class CallExp extends Exp {
 		}
 		i++;
 	    }
+
 	    return sym;
 	}
 	return null;
