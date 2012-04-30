@@ -1,6 +1,8 @@
 package syntaxtree;
 import java.util.List;
 import bytecode.CodeFile;
+import bytecode.CodeProcedure;
+import bytecode.type.*;
 
 public class Program {
 	
@@ -15,6 +17,17 @@ public class Program {
   public void generateCode(CodeFile file) {
     System.out.println("MAKIN' BACON (Main program node)");
     
+    // Add libraries (I think this is how it's done...)
+    CodeProcedure pstring = new CodeProcedure("printstr", VoidType.TYPE, file);
+    file.updateProcedure(pstring);
+    
+    CodeProcedure pline = new CodeProcedure("printline", VoidType.TYPE, file);
+    file.updateProcedure(pline);
+    
+    CodeProcedure pint = new CodeProcedure("printint", VoidType.TYPE, file);
+    file.updateProcedure(pint);
+    
+    // Generate code for the whole program
     for (Decl decl : decls) {
       if (decl == null) { 
         System.out.println("NULL ERROR IN CODE GEN!\n");
@@ -22,6 +35,9 @@ public class Program {
       
       decl.generateCode(file, null, null);
     }
+    
+    //Set Main method
+    file.setMain("Main");
     
   }
 

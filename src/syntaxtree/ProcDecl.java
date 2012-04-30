@@ -1,6 +1,8 @@
 package syntaxtree;
 import java.util.List;
 import bytecode.*;
+import bytecode.type.*;
+import bytecode.instructions.*;
 
 public class ProcDecl extends Decl{
 
@@ -21,14 +23,51 @@ public class ProcDecl extends Decl{
   }
 
     @Override
-    public void generateCode(CodeFile file/*, CodeStruct struct, CodeProcedure proc*/){
-
-
-
-
-
+    public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc){
+      System.out.println("PROC " + name + " (" + type + ")");
+      file.addProcedure(this.name);
+      CodeProcedure pro;
+      
+      if (this.type.equals("bool")) {
+        pro = new CodeProcedure(this.name, BoolType.TYPE, file);
+      } else if (this.type.equals("float")) {
+        pro = new CodeProcedure(this.name, FloatType.TYPE, file);        
+      } else if (this.type.equals("int")) {
+        pro = new CodeProcedure(this.name, IntType.TYPE, file);        
+      } else if (this.type.equals("void")) {
+        pro = new CodeProcedure(this.name, VoidType.TYPE, file);        
+      } else { // Everything else is ref
+        pro = new CodeProcedure(this.name, new RefType(file.structNumber(this.type)), file);        
+      } 
+      
+      // Do some recursion magic yo
+      
+      if (decllist != null) {
+        for (Decl d: decllist){
+          if (d == null) {
+            //out += "NULL ERROR IN ProcDecl\n";
+            continue;
+          }
+          d.generateCode(file, null, pro);
+        }
+      }
+    
+      if (stmtlist != null) {
+        for (Stmt s: stmtlist){
+          if (s == null) {
+            //out += "NULL ERROR IN ProcDecl\n";
+            continue;
+          }
+          s.generateCode(file, null, pro);
+        }
+      }
+      
+      //Add final return and update the file
+      // RETURN VALUE NEEDS TO BE ON STACK?
+      pro.addInstruction(new RETURN());
+      file.updateProcedure(pro);
+      
     }
-
 
 
 

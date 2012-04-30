@@ -42,7 +42,7 @@ public class VarDecl extends Decl {
   @Override
   public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc) {
     
-    //Only CodeFile give, assume global variable
+    //Only CodeFile given, assume global variable
     if ((file != null) && (struct == null) && (proc == null) ){
       System.out.println("ADDING VAR '" + this.name + "' TO GLOBAL SCOPE");
       file.addVariable(this.name);
