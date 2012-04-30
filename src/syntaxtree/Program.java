@@ -20,7 +20,7 @@ public class Program {
         System.out.println("NULL ERROR IN CODE GEN!\n");
       }
       
-      decl.generateCode(file);
+      decl.generateCode(file, null, null);
     }
     
   }

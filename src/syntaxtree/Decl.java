@@ -1,5 +1,7 @@
 package syntaxtree;
+import bytecode.CodeStruct;
 import bytecode.CodeFile;
+import bytecode.CodeProcedure;
 
 public class Decl {
 
@@ -15,8 +17,8 @@ public class Decl {
 
 
 
-    public void generateCode(CodeFile file/*, CodeStruct struct, CodeProcedure proc*/) {
-    System.out.println("DECL!");
+  public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc) {
+    System.out.println("DECL - OVERLOAD THIS PLZ!");
   }
   
 

@@ -1,10 +1,9 @@
 package syntaxtree;
 import bytecode.*;
 import bytecode.CodeStruct;
+import bytecode.CodeFile;
+import bytecode.CodeProcedure;
 import bytecode.type.*;
-
-/*import bytecode.CodeFile;
-import byteCode.CodeProcedure;*/
 
 public class VarDecl extends Decl {
   String name;
@@ -40,7 +39,8 @@ public class VarDecl extends Decl {
     */
 
   // Add variable to CodeStruct
-  public void generateCode(CodeStruct struct) {
+  @Override
+  public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc) {
     System.out.println("ADDING VAR '" + this.name + "' TO STRUCT ");
     
     if(type.equals("float")) 

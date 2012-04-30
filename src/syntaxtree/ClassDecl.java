@@ -2,6 +2,7 @@ package syntaxtree;
 import java.util.List;
 import bytecode.CodeFile;
 import bytecode.CodeStruct;
+import bytecode.CodeProcedure;
 public class ClassDecl extends Decl{
     
     String name;
@@ -44,11 +45,11 @@ public class ClassDecl extends Decl{
     }
 
 
-    public void generateCode(CodeFile file/*, CodeStruct struct, CodeProcedure proc*/) {
+  public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc) {
     System.out.println("CREATING STRUCT '" + this.name + "'");
     
     file.addStruct(this.name);
-    CodeStruct struct = new CodeStruct(this.name);
+    CodeStruct nstruct = new CodeStruct(this.name);
 
     if (vlist != null) {
       for (Decl v: vlist){
@@ -58,13 +59,12 @@ public class ClassDecl extends Decl{
         }
 
         // Add decl to to struct!
-        // Ugly casting, but everything is stored as Decl :/
-        ((VarDecl)v).generateCode(struct);
+        v.generateCode(null, nstruct, null);
 
       }
     }
     
-    file.updateStruct(struct);    
+    file.updateStruct(nstruct);    
     System.out.println("DONE MAKING STRUCT '" + this.name + "'");
   }
 
