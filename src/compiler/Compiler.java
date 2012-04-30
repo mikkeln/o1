@@ -25,35 +25,23 @@ public class Compiler {
         Lexer lexer = new Lexer(inputStream);
         parser parser = new parser(lexer);
 
-        Program program;
+        Program program = null;
       try {
            program = (Program)parser.parse().value;
         } catch (Exception e) {
             // Do something here?
-        throw e; // Or something.
-/*
-        Program program = null;
-        try {
-            program = (Program)parser.parse().value;
-        } catch (Exception e) {
-            // Do something here?
-            //throw e; // Or something.
-            System.out.println("MORDIIIIIIIIIIIIII");*/
-
+        //throw e; // Or something.
+	System.out.println("MORDIIIIIIIIIII");
         }
 	String finalres = checkSemantics(program);
         // Check semanics.
+	System.out.println("finalres : " + finalres);
 
-        if(finalres != "syntax error" && finalres != "semantic error"){ // If it is all ok:
-	//System.out.println("finalres : " + finalres);	
-            //writeAST(program);
-            //generateCode(program);
-/*
-        if(program != null){ // If it is all ok:
-        System.out.println("NØØØØY");
-            writeAST(program);
-            generateCode(program);
-*/
+        if(finalres != "syntax error" && finalres != "semantic error" && program != null){ // If it is all ok:
+		System.out.println("NØØØØY");	
+        	//writeAST(program);
+        	//generateCode(program);
+		
             return 0;
         } else if (finalres == "syntax error"){ // If there is a SYNTAX ERROR (Should not get that for the tests):
 	//System.out.println("finalres : " + finalres);

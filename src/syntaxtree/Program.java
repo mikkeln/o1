@@ -58,6 +58,16 @@ public class Program {
 	entry = table.newEntry("string", "printline");
 	entry.addParam("string");
 
+	entry = table.newEntry("int", "readint");
+	
+	entry = table.newEntry("float", "readfloat");
+	
+	entry = table.newEntry("int", "readchar");
+	
+	entry = table.newEntry("string", "readstring");
+	
+
+
 
     }
 
@@ -76,8 +86,9 @@ public class Program {
 
 	res = d.semanticChecker(table);		
 
-	if(res.equals("semantic error") || res.equals("syntax error"))
+	if(res.equals("semantic error") || res.equals("syntax error")){
 	    return res;
+	}
 
 	if(res.equals("Main")){ 
 	    hasMain =  true;

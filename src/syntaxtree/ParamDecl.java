@@ -19,9 +19,9 @@ public class ParamDecl extends Decl {
 	while(top.parent != null)
 	    top = top.ascend();
 
-	if(top.locate(name) != null)
-	   return "semantic error";
-
+	if(top.locate(name) != null){
+	    return "semantic error";
+	}
 
 	//create new entry
        	SymbolTable newtable = table.newEntry(type, name);
