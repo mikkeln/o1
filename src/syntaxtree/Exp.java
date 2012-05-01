@@ -21,6 +21,9 @@ public class Exp {
 	return table;
     }
 
+  public String getName(){
+    return "";
+  }
 
   public String spaces(int size){
     String out = "";
