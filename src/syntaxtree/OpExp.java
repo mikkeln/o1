@@ -28,15 +28,42 @@ public class OpExp extends Exp{
 		System.out.println("NEW EXPRESSION");    
 		proc.addInstruction(new NEW(proc.structNumber(op))); //Correct?
 
-	}else if(opname.equals("ARIT_OP")){
-	    System.out.println("ARIT_OP EXPRESSION");
 
+
+	}else if(opname.equals("ARIT_OP")){
+	    System.out.println("ARIT_OP EXPRESSION " + op);
+
+     	    e1.generateCode(file, null, proc);
+	    e2.generateCode(file, null, proc);
+
+	    if(op.equals("+"))
+		proc.addInstruction(new ADD());
+	    else if(op.equals("-"))
+		proc.addInstruction(new SUB());
+	    else if(op.equals("/"))
+		proc.addInstruction(new DIV());
+	    else
+		proc.addInstruction(new MUL());
 
 
 	}else if(opname.equals("REL_OP")){
 	    System.out.println("REL_OP EXPRESSION");
 
+     	    e1.generateCode(file, null, proc);
+	    e2.generateCode(file, null, proc);
 
+	    if(op.equals("<"))
+		proc.addInstruction(new LT());
+	    else if(op.equals(">"))
+		proc.addInstruction(new GT());
+	    else if(op.equals(">="))
+		proc.addInstruction(new GTEQ());
+	    else if(op.equals("<="))
+		proc.addInstruction(new LTEQ());
+	    else if(op.equals("<>"))
+		proc.addInstruction(new NEQ());
+	    else
+		proc.addInstruction(new EQ());
 
 	}
 

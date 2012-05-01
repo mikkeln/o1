@@ -30,13 +30,15 @@ public class NameExp extends Exp{
 
     @Override
     public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc){
-	System.out.println("NAME EXPRESSION - " + this.name );
 
 	if(e1 == null){ //No . reference
-	    proc.addInstruction(new LOADLOCAL(proc.variableNumber(name)));
+	System.out.println("NAME EXPRESSION FOR '" +  this.name + "' ");
+	    //proc.addInstruction(new LOADLOCAL(proc.variableNumber(name)));
+	    proc.addInstruction(new STORELOCAL(proc.variableNumber(name)));
 	}
 
 	else{ //. reference
+	System.out.println("NAME EXPRESSION FOR '" + "' WITH REFERENCE");
 
 
 	}

@@ -1,4 +1,7 @@
 package syntaxtree;
+import bytecode.*;
+import bytecode.type.*;
+import bytecode.instructions.*;
 
 public class ReturnStmt extends Stmt{
 
@@ -7,6 +10,21 @@ Exp exp;
 	public ReturnStmt(Exp exp){
 		this.exp = exp;
 	}
+
+    @Override
+    public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc){
+	System.out.println("RETURN_STMT");
+	
+	proc.addInstruction(new RETURN());
+
+
+    }
+
+
+
+
+
+
 
     public String semanticChecker(SymbolTable table, String type){
 
