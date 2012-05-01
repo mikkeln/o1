@@ -13,30 +13,7 @@ public class VarDecl extends Decl {
     this.name = name;
     this.type = type;
   }
-    /*
-    @Override 
-    public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc){
-	CodeType ct;
 
-    	if(type.equals("float")) 
-	    ct = new FloatType();
-	else if(type.equals("int"))
-	    ct = new IntType();
-	else if(type.equals("boolean"))
-	    ct = new BoolType();
-	else if(type.equals("string"))
-	    ct = new StringType();
-	else
-	    ct = new CodeType(); //correct? what if typeof some object?
-
-
-	if(struct != null){//if program class/struct
-	    struct.addVariable(name, ct);
-	}else{//if program procedure
-	    prod.addVariable(name, ct);
-	}
-    }
-    */
 
   // Add variable to CodeStruct
   @Override
@@ -46,6 +23,8 @@ public class VarDecl extends Decl {
     if ((file != null) && (struct == null) && (proc == null) ){
       System.out.println("ADDING VAR '" + this.name + "' TO GLOBAL SCOPE");
       file.addVariable(this.name);
+
+      file.updateVariable(name, new RefType(file.structNumber(type)));
     }
     
     // If struct is given we assume struct declaration
