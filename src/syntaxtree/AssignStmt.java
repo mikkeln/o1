@@ -20,9 +20,10 @@ Exp exp;
 	System.out.println("ASSIGN VARIABLE");
 
 	if(proc != null){ //If proc is delivered, assume the assignstmt is in a procedure
-	    var.generateCode(file, null, proc);
-
 	    exp.generateCode(file, null, proc);
+
+	    //This last?
+	    var.generateCode(file, null, proc);
 
 	}
 
