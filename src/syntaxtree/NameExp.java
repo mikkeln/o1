@@ -27,23 +27,37 @@ public class NameExp extends Exp{
     return name;
   }
 
+    @Override
+    public String gete1Name(){
+	if(e1 != null)
+	    return e1.getName();
+	else
+	    return "";
+   }
 
     @Override
     public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc){
 
 	if(e1 == null){ //No . reference
-	System.out.println("NAME EXPRESSION FOR '" +  this.name + "' ");
-	    //proc.addInstruction(new LOADLOCAL(proc.variableNumber(name)));
-	    proc.addInstruction(new STORELOCAL(proc.variableNumber(name)));
+	    if(proc != null){
+		System.out.println("NAME EXPRESSION FOR '" +  this.name + "' ");
+		proc.addInstruction(new LOADLOCAL(proc.variableNumber(name)));
+		//proc.addInstruction(new STORELOCAL(proc.variableNumber(name)));
+	    }
 	}
-
 	else{ //. reference
-	System.out.println("NAME EXPRESSION FOR '" + "' WITH REFERENCE");
-
-
+	    if(proc != null){
+		System.out.println("NAME EXPRESSION FOR '" + this.name + "' WITH REFERENCE");
+		
+		String structName = e1.getName();
+		
+		proc.addInstruction(new LOADLOCAL(proc.variableNumber(structName))); //Add struct on top of stack
+		// doesnt work! -but should?
+		/*	proc.addInstruction(new GETFIELD(proc.fieldNumber(structName, name), 
+			proc.structNumber(structName))); //leaving the field value on the stack*/
+	    }
+	    
 	}
-
-
 
     }
 
