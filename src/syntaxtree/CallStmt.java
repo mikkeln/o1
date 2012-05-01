@@ -1,6 +1,11 @@
 package syntaxtree;
 import java.util.List;
 
+import bytecode.CodeFile;
+import bytecode.CodeStruct;
+import bytecode.CodeProcedure;
+import bytecode.instructions.*;
+
 public class CallStmt extends Stmt {
 
   String name;
@@ -11,10 +16,25 @@ public class CallStmt extends Stmt {
     this.params = params;
   }
 
-    public CallExp gexp(){
-	//Returns a new Exp version of this statement.
-	return new CallExp(name, params);
+  public CallExp gexp(){
+	  //Returns a new Exp version of this statement.
+	  return new CallExp(name, params);
+  }
+  
+  @Override
+  public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc){
+    System.out.println("CALL - " + name + "()");
+    
+    //Add params to stack (will the ordering be correct here?)
+    if (params != null) {
+      for (Exp e : params){
+        e.generateCode(file, null, proc);
+      }
     }
+    
+    proc.addInstruction(new CALL(file.procedureNumber(name)));
+  }
+  
 
     public String semanticChecker(SymbolTable table, String type){
 	SymbolTable tmp, sym = table;
