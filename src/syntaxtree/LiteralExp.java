@@ -16,10 +16,16 @@ public class LiteralExp extends Exp {
     
     @Override
     public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc){
-	System.out.println("LITERAL EXPRESSION");
+	System.out.println("LITERAL EXPRESSION " + litname);
 
-
-
+	if(litname.equals("FLOAT"))
+	    proc.addInstruction(new PUSHFLOAT(new Float(value)));
+	else if(litname.equals("INT"))
+	    proc.addInstruction(new PUSHINT(new Integer(value)));
+	//else if(litname.equals("STRING"))
+	//  proc.addInstruction(new PUSHSTRING(value));
+	else
+	    proc.addInstruction(new PUSHBOOL(new Boolean(value)));
     }
 
 
