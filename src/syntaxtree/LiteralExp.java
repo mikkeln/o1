@@ -1,5 +1,8 @@
 package syntaxtree;
 import java.util.List;
+import bytecode.*;
+import bytecode.type.*;
+import bytecode.instructions.*;
 
 public class LiteralExp extends Exp {
 
@@ -10,6 +13,15 @@ public class LiteralExp extends Exp {
     this.litname = litname;
     this.value = value;
   }
+    
+    @Override
+    public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc){
+	System.out.println("LITERAL EXPRESSION");
+
+
+
+    }
+
 
 
 

@@ -32,15 +32,34 @@ public class VarDecl extends Decl {
       System.out.println("ADDING VAR '" + this.name + "' TO STRUCT");
       
       if(type.equals("float")) 
-        struct.addVariable(this.name, FloatType.TYPE);
-	    else if(type.equals("int"))
-        struct.addVariable(this.name, IntType.TYPE);
-	    else if(type.equals("boolean"))
-        struct.addVariable(this.name, BoolType.TYPE);
-	    else if(type.equals("string"))
-        struct.addVariable(this.name, StringType.TYPE);
-    
+	  struct.addVariable(this.name, FloatType.TYPE);
+      else if(type.equals("int"))
+	  struct.addVariable(this.name, IntType.TYPE);
+      else if(type.equals("boolean"))
+	  struct.addVariable(this.name, BoolType.TYPE);
+      else if(type.equals("string"))
+	  struct.addVariable(this.name, StringType.TYPE);
+      /*      else 
+	  struct.addVariable(this.name, new RefType(struct.structNumber(type)));
+      */
     }
+    //If Not struct we assume procedure declaration
+    else{
+	System.out.println("ADDING VAR '" + this.name + "' TO PROCEDURE");
+
+	if(type.equals("float")) 
+	    proc.addLocalVariable(this.name, FloatType.TYPE);
+	else if(type.equals("int"))
+	    proc.addLocalVariable(this.name, IntType.TYPE);
+	else if(type.equals("boolean"))
+	    proc.addLocalVariable(this.name, BoolType.TYPE);
+	else if(type.equals("string"))
+	    proc.addLocalVariable(this.name, StringType.TYPE);
+	else
+	    proc.addLocalVariable(this.name, new RefType(proc.structNumber(type)));
+
+    }
+
   }
 
 
