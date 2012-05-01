@@ -32,7 +32,7 @@ public class NameExp extends Exp{
     public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc){
 
 	if(e1 == null){ //No . reference
-	System.out.println("NAME EXPRESSION FOR '" this.name "' ");
+	System.out.println("NAME EXPRESSION FOR '" +  this.name + "' ");
 	    //proc.addInstruction(new LOADLOCAL(proc.variableNumber(name)));
 	    proc.addInstruction(new STORELOCAL(proc.variableNumber(name)));
 	}
