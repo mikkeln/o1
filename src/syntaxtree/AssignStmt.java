@@ -1,5 +1,8 @@
 package syntaxtree;
 import java.util.List;
+import bytecode.*;
+import bytecode.type.*;
+import bytecode.instructions.*;
 
 public class AssignStmt extends Stmt{
 
@@ -10,6 +13,26 @@ Exp exp;
 	this.var = var;
 	this.exp = exp;
 	}
+
+
+    @Override
+    public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc){
+	System.out.println("ASSIGN VARIABLE");
+
+	if(proc != null){ //If proc is delivered, assume the assignstmt is in a procedure
+	    var.generateCode(file, null, proc);
+
+	    exp.generateCode(file, null, proc);
+
+	}
+
+
+    }
+
+
+
+
+
 
     @Override
 	public String semanticChecker(SymbolTable table, String type){

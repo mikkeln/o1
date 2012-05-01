@@ -41,6 +41,15 @@ public class ProcDecl extends Decl{
       } 
       
       // Do some recursion magic yo
+
+      if(parlist != null){
+	  for(Decl p : parlist){
+	      if(p == null){
+		  continue;
+	      }
+	      p.generateCode(file, null, pro);
+	  }
+      }
       
       if (decllist != null) {
         for (Decl d: decllist){

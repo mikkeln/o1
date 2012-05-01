@@ -1,5 +1,9 @@
 package syntaxtree;
 import java.util.List;
+import bytecode.*;
+import bytecode.type.*;
+import bytecode.instructions.*;
+
 
 public class NameExp extends Exp{
 
@@ -17,6 +21,28 @@ public class NameExp extends Exp{
     this.e1 = e1;
     this.ref = ref;
   }
+
+
+
+    @Override
+    public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc){
+	System.out.println("NAME EXPRESSION");
+
+	if(e1 == null){ //No . reference
+	    proc.addInstruction(new LOADLOCAL(proc.variableNumber(name)));
+	}
+
+	else{ //. reference
+
+
+	}
+
+
+
+    }
+
+
+
 
 @Override
     public SymbolTable semanticChecker(SymbolTable table){

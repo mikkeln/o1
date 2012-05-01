@@ -1,4 +1,7 @@
 package syntaxtree;
+import bytecode.*;
+import bytecode.type.*;
+import bytecode.instructions.*;
 
 public class Exp {
 
@@ -7,10 +10,16 @@ public class Exp {
   }
   
 
+    public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc){
+	System.out.println("OVERRIDE EXP YOU BASTARDS, FUCKIN' SNOW");
+
+
+    }
+
+
     public SymbolTable semanticChecker(SymbolTable table){
 	return table;
     }
-
 
 
   public String spaces(int size){

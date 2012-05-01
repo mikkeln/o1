@@ -1,5 +1,9 @@
 package syntaxtree;
 import java.util.List;
+import bytecode.*;
+import bytecode.type.*;
+import bytecode.instructions.*;
+
 
 public class OpExp extends Exp{
 
@@ -14,6 +18,36 @@ public class OpExp extends Exp{
     this.e2 = e2;
     this.op = op;
   }
+
+
+    @Override
+    public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc){
+
+
+	if(opname.equals("NEW")){
+		System.out.println("NEW EXPRESSION");    
+		proc.addInstruction(new NEW(proc.structNumber(op))); //Correct?
+
+	}else if(opname.equals("ARIT_OP")){
+	    System.out.println("ARIT_OP EXPRESSION");
+
+
+
+	}else if(opname.equals("REL_OP")){
+	    System.out.println("REL_OP EXPRESSION");
+
+
+
+	}
+
+
+
+
+
+
+    }
+
+
 
 @Override
     public SymbolTable semanticChecker(SymbolTable table){
