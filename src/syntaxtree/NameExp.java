@@ -22,14 +22,17 @@ public class NameExp extends Exp{
     this.ref = ref;
   }
 
+  @Override
+  public String getName(){
+    return name;
+  }
 
 
     @Override
     public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc){
 
-
 	if(e1 == null){ //No . reference
-	System.out.println("NAME EXPRESSION FOR '" + "' ");
+	System.out.println("NAME EXPRESSION FOR '" this.name "' ");
 	    //proc.addInstruction(new LOADLOCAL(proc.variableNumber(name)));
 	    proc.addInstruction(new STORELOCAL(proc.variableNumber(name)));
 	}

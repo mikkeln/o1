@@ -6,29 +6,37 @@ import bytecode.instructions.*;
 
 public class AssignStmt extends Stmt{
 
-Exp var;
-Exp exp;
+  Exp var;
+  Exp exp;
 
 	public AssignStmt(Exp var, Exp exp){
-	this.var = var;
-	this.exp = exp;
+  	this.var = var;
+	  this.exp = exp;
 	}
 
 
-    @Override
-    public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc){
-	System.out.println("ASSIGN VARIABLE");
+  @Override
+  public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc){
+    
+    //We only need the name of this one, so I commented it out the old code
+	  //var.generateCode(file, null, proc);
+    String varname = var.getName();
+	  System.out.println("ASSIGN VARIABLE: " + varname );
+	  
+	  // I really hope this value gets pushed to stack!
+    exp.generateCode(file, null, proc);
+      
+	  if(proc != null){ //If proc is delivered, assume the assignstmt is in a procedure
+	    // Store whatever is on stack to local variable varname
+	    proc.addInstruction(new STORELOCAL(proc.variableNumber(varname)));
 
-	if(proc != null){ //If proc is delivered, assume the assignstmt is in a procedure
-	    exp.generateCode(file, null, proc);
-
-	    //This last?
-	    var.generateCode(file, null, proc);
-
-	}
-
-
-    }
+	  } else { // Global scope = global variable
+	    // Not working!
+      //file.addInstruction(new STOREGLOBAL(file.variableNumber(varname)));
+	  }
+    
+  }
+>>>>>>> upstream/master
 
 
 
