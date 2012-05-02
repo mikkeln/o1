@@ -18,7 +18,7 @@ public class IfStmt extends Stmt {
   }
 
   @Override
-  public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc){
+      public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc, SymbolTable table){
     System.out.println("If statement");
     int jumpinstr1 = 0, jumpinstr2 = 0; // We might need 2 jump offsets.
     
@@ -32,7 +32,7 @@ public class IfStmt extends Stmt {
     
     if(if_stmt != null){
 	    for(Stmt s : if_stmt){
-        s.generateCode(file, null, proc);	  
+		s.generateCode(file, null, proc, table);	  
 	    }
 	    // If there is an else-part this instruction gets replaced with a jump 
 	    // to the end of the if-block.
@@ -48,7 +48,7 @@ public class IfStmt extends Stmt {
     // ELSE starts here
 	  if(else_stmt != null){
 	    for(Stmt s : else_stmt){
-	      s.generateCode(file, null, proc);
+		s.generateCode(file, null, proc, table);
 	    }
 	    
 	   	// Label for the end of the IF. 

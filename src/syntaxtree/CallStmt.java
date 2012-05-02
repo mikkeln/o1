@@ -22,7 +22,7 @@ public class CallStmt extends Stmt {
   }
   
   @Override
-  public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc){
+      public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc, SymbolTable table){
     System.out.println("CALL - " + name + "()");
     
     //Add params to stack (will the ordering be correct here?)

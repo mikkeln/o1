@@ -17,7 +17,7 @@ public class ParamDecl extends Decl {
 
 
     @Override
-    public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc){
+	public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc, SymbolTable table){
 	
 	if(type.equals("float"))
 	    proc.addParameter(name, FloatType.TYPE);

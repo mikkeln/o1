@@ -36,7 +36,7 @@ public class NameExp extends Exp{
    }
 
     @Override
-    public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc){
+	public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc){
 
 	if(e1 == null){ //No . reference
 	    if(proc != null){

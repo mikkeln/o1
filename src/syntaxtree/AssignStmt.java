@@ -3,6 +3,9 @@ import java.util.List;
 import bytecode.*;
 import bytecode.type.*;
 import bytecode.instructions.*;
+import java.util.HashMap;
+import java.util.Collection;
+import java.util.Iterator;
 
 public class AssignStmt extends Stmt{
 
@@ -16,7 +19,7 @@ public class AssignStmt extends Stmt{
 
 
   @Override
-  public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc){
+      public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc, SymbolTable table){
     
       //We only need the name of this one, so I commented it out the old code
       //var.generateCode(file, null, proc);
@@ -37,19 +40,37 @@ public class AssignStmt extends Stmt{
 	      //proc.addInstruction(new PUSHSTRING(exp.getName()));
 	      	      System.out.println("SAAAAAAAAAAAAAAP " + varname + " crap : " + crap);
 	  }else{
+	      SymbolTable structt = null;
 
-	      System.out.println("WWWWWWWWWWTTTTTFFFFFFFFFFFF");
+	      Collection c = table.entries.values();
+	      Iterator it = c.iterator();
+
+	      Collection b;
+	      Iterator itr;
+
+	      while(it.hasNext()){
+		  SymbolTable tmp = (SymbolTable)it.next();
+		  if(tmp.name.equals(structName)){
+		      structt = tmp;
+		      break;
+		  }else{
+		      b = tmp.entries.values();
+		      itr = b.iterator();
+		      while(itr.hasNext()){
+			  SymbolTable crap = (SymbolTable)itr.next();
+			  if(crap.name.equals(structName)){
+			      structt = crap;
+			      break;
+			  }
+		      }
+		  }
+	      }
+
+	      System.out.println("structt: " + structt.name);
 	      System.out.println(structName + " " + varname);
 	      int tester = proc.addInstruction(new LOADLOCAL(proc.variableNumber(varname)));
-	      System.out.println("tester: " + tester);
-	      
-	      //String ss = proc.addInstruction(new PUSHSTRING);
-	      int index = proc.variableNumber(structName);
-	      
-	      // String varType = proc.variableTypes.get(index);
-	      System.out.println("IS GOOOOd?: " + index);
 
-	      proc.addInstruction(new PUTFIELD(proc.fieldNumber("Complex", varname), proc.structNumber("Complex"))); //How to get struct type?
+	      proc.addInstruction(new PUTFIELD(proc.fieldNumber(structt.type, varname), proc.structNumber(structt.type))); //How to get struct type?
 	  }
       } else { // Global scope = global variable
 	  // Not working!

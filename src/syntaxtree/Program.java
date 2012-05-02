@@ -33,7 +33,7 @@ public class Program {
         System.out.println("NULL ERROR IN CODE GEN!\n");
       }
       
-      decl.generateCode(file, null, null);
+      decl.generateCode(file, null, null, table);
     }
     
     //Set Main method

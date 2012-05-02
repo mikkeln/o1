@@ -10,7 +10,7 @@ public class Stmt {
     return "STMT OBJECT HAS NO STR DEF!";
   }
   
-  public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc) {
+    public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc, SymbolTable table) {
     System.out.println("STMT - OVERLOAD THIS PLZ!");
   }
    

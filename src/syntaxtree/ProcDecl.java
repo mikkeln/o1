@@ -23,7 +23,7 @@ public class ProcDecl extends Decl{
   }
 
     @Override
-    public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc){
+	public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc, SymbolTable table){
       System.out.println("PROC " + name + " (" + type + ")");
       file.addProcedure(this.name);
       CodeProcedure pro;
@@ -47,7 +47,7 @@ public class ProcDecl extends Decl{
 	      if(p == null){
 		  continue;
 	      }
-	      p.generateCode(file, null, pro);
+	      p.generateCode(file, null, pro, table);
 	  }
       }
       
@@ -57,7 +57,7 @@ public class ProcDecl extends Decl{
             //out += "NULL ERROR IN ProcDecl\n";
             continue;
           }
-          d.generateCode(file, null, pro);
+          d.generateCode(file, null, pro, table);
         }
       }
     
@@ -67,7 +67,7 @@ public class ProcDecl extends Decl{
             //out += "NULL ERROR IN ProcDecl\n";
             continue;
           }
-          s.generateCode(file, null, pro);
+          s.generateCode(file, null, pro, table);
         }
       }
       
