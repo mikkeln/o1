@@ -16,7 +16,7 @@ public class LiteralExp extends Exp {
     
     @Override
 	public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc, SymbolTable table){
-	System.out.println("LITERAL EXPRESSION " + litname);
+	System.out.println("LITERAL EXPRESSION " + litname + " with value: " + value);
 
 	if(litname.equals("FLOAT"))
 	    proc.addInstruction(new PUSHFLOAT(new Float(value)));
