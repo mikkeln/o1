@@ -13,12 +13,12 @@ Exp exp;
 
     @Override
 	public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc, SymbolTable table){
-	System.out.println("RETURN_STMT");
+	  System.out.println("RETURN_STMT");
 	
-	//proc.addInstruction(new RETURN());
-
-
-    }
+	  //Add return value to stack
+    if (exp != null) exp.generateCode(file, struct, proc, table);
+    
+  }
 
 
 
