@@ -1,5 +1,10 @@
 package syntaxtree;
 import java.util.List;
+import bytecode.CodeFile;
+import bytecode.CodeStruct;
+import bytecode.CodeProcedure;
+import bytecode.instructions.*;
+
 
 public class CallExp extends Exp {
 
@@ -10,6 +15,33 @@ public class CallExp extends Exp {
     this.name = name;
     this.params = params;
   }
+
+    @Override
+    public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc, SymbolTable table){
+	System.out.println("CALL - " + name + "()");
+	
+	//Add params to stack (will the ordering be correct here?)
+	if (params != null) {
+	    for (Exp e : params){
+		e.generateCode(file, null, proc, table);
+	    }
+	}
+	
+	int test = file.procedureNumber(name);
+	System.out.println("NAME::test:: "+ test);
+	
+	proc.addInstruction(new CALL(file.procedureNumber(name)));	
+	
+
+
+
+
+
+    }
+
+
+
+
 
 
 @Override

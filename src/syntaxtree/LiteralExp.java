@@ -22,9 +22,10 @@ public class LiteralExp extends Exp {
 	    proc.addInstruction(new PUSHFLOAT(new Float(value)));
 	else if(litname.equals("INT"))
 	    proc.addInstruction(new PUSHINT(new Integer(value)));
-	//else if(litname.equals("STRING"))
-	//  proc.addInstruction(new PUSHSTRING(value));
-	else
+	else if(litname.equals("STRING")){
+
+	    proc.addInstruction(new PUSHSTRING(proc.addStringConstant(value)));	    
+	}else
 	    proc.addInstruction(new PUSHBOOL(new Boolean(value)));
     }
 

@@ -15,7 +15,7 @@ Exp exp;
 	public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc, SymbolTable table){
 	System.out.println("RETURN_STMT");
 	
-	proc.addInstruction(new RETURN());
+	//proc.addInstruction(new RETURN());
 
 
     }

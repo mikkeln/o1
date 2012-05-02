@@ -35,7 +35,7 @@ public class CallStmt extends Stmt {
     int test = file.procedureNumber(name);
     System.out.println("NAME::test:: "+ test);
     
-    //proc.addInstruction(new CALL(file.procedureNumber(name)));
+    proc.addInstruction(new CALL(file.procedureNumber(name)));
   }
   
 
