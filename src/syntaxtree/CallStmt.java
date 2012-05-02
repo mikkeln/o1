@@ -22,17 +22,20 @@ public class CallStmt extends Stmt {
   }
   
   @Override
-  public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc){
+      public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc, SymbolTable table){
     System.out.println("CALL - " + name + "()");
     
     //Add params to stack (will the ordering be correct here?)
     if (params != null) {
       for (Exp e : params){
-        e.generateCode(file, null, proc);
+	  e.generateCode(file, null, proc, table);
       }
     }
     
-    proc.addInstruction(new CALL(file.procedureNumber(name)));
+    int test = file.procedureNumber(name);
+    System.out.println("NAME::test:: "+ test);
+    
+    //proc.addInstruction(new CALL(file.procedureNumber(name)));
   }
   
 

@@ -45,7 +45,7 @@ public class ClassDecl extends Decl{
     }
 
 
-  public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc) {
+    public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc, SymbolTable table) {
     System.out.println("CREATING STRUCT '" + this.name + "'");
     
     file.addStruct(this.name);
@@ -59,7 +59,7 @@ public class ClassDecl extends Decl{
         }
 
         // Add decl to to struct!
-        v.generateCode(null, nstruct, null);
+        v.generateCode(null, nstruct, null, table);
 
       }
     }

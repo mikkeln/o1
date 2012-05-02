@@ -12,7 +12,7 @@ Exp exp;
 	}
 
     @Override
-    public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc){
+	public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc, SymbolTable table){
 	System.out.println("RETURN_STMT");
 	
 	proc.addInstruction(new RETURN());

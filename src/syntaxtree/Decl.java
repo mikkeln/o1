@@ -14,7 +14,7 @@ public class Decl {
       return "no error"; //No errors
   }
 
-  public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc) {
+    public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc, SymbolTable table) {
     System.out.println("DECL - OVERLOAD THIS PLZ!");
   }
   

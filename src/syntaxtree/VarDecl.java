@@ -17,7 +17,7 @@ public class VarDecl extends Decl {
 
   // Add variable to CodeStruct
   @Override
-  public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc) {
+      public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc, SymbolTable table) {
     
     //Only CodeFile given, assume global variable
     if ((file != null) && (struct == null) && (proc == null) ){

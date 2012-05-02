@@ -3,6 +3,9 @@ import java.util.List;
 import bytecode.*;
 import bytecode.type.*;
 import bytecode.instructions.*;
+import java.util.HashMap;
+import java.util.Collection;
+import java.util.Iterator;
 
 public class AssignStmt extends Stmt{
 
@@ -16,7 +19,7 @@ public class AssignStmt extends Stmt{
 
 
   @Override
-  public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc){
+      public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc, SymbolTable table){
     
       //We only need the name of this one, so I commented it out the old code
       //var.generateCode(file, null, proc);
@@ -26,21 +29,48 @@ public class AssignStmt extends Stmt{
       System.out.println("ASSIGN VARIABLE: varname: " + varname + " structname: " + var.gete1Name());
       
       // I really hope this value gets pushed to stack!
-   	      exp.generateCode(file, null, proc); 
+      exp.generateCode(file, null, proc, table); 
 
 
       if(proc != null){ //If proc is delivered, assume the assignstmt is in a procedure
 	  // Store whatever is on stack to local variable varname
 	  if(structName.equals("")){
-	      System.out.println("SAAAAAAAAAAAAAAP " + varname);
-	      proc.addInstruction(new STORELOCAL(proc.variableNumber(varname)));
+	      int crap = proc.addInstruction(new STORELOCAL(proc.variableNumber(varname)));
+	      //try to get type
+	      //proc.addInstruction(new PUSHSTRING(exp.getName()));
+	      // System.out.println("SAAAAAAAAAAAAAAP " + varname + " crap : " + crap);
 	  }else{
-	      System.out.println("WWWWWWWWWWTTTTTFFFFFFFFFFFF");
+	      SymbolTable structt = null;
+
+	      Collection c = table.entries.values();
+	      Iterator it = c.iterator();
+
+	      Collection b;
+	      Iterator itr;
+
+	      while(it.hasNext()){
+		  SymbolTable tmp = (SymbolTable)it.next();
+		  if(tmp.name.equals(structName)){
+		      structt = tmp;
+		      break;
+		  }else{
+		      b = tmp.entries.values();
+		      itr = b.iterator();
+		      while(itr.hasNext()){
+			  SymbolTable crap = (SymbolTable)itr.next();
+			  if(crap.name.equals(structName)){
+			      structt = crap;
+			      break;
+			  }
+		      }
+		  }
+	      }
+
+	      System.out.println("structt: " + structt.name);
 	      System.out.println(structName + " " + varname);
 	      int tester = proc.addInstruction(new LOADLOCAL(proc.variableNumber(varname)));
-	      System.out.println("tester: " + tester);
 
-	      proc.addInstruction(new PUTFIELD(proc.fieldNumber("Complex", varname), proc.structNumber("Complex"))); //How to get struct type!
+	      proc.addInstruction(new PUTFIELD(proc.fieldNumber(structt.type, varname), proc.structNumber(structt.type))); //How to get struct type?
 	  }
       } else { // Global scope = global variable
 	  // Not working!

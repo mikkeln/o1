@@ -26,6 +26,9 @@ public class Program {
     
     CodeProcedure pint = new CodeProcedure("printint", VoidType.TYPE, file);
     file.updateProcedure(pint);
+
+    CodeProcedure pfloat = new CodeProcedure("printfloat", VoidType.TYPE, file);
+    file.updateProcedure(pfloat);
     
     // Generate code for the whole program
     for (Decl decl : decls) {
@@ -33,7 +36,7 @@ public class Program {
         System.out.println("NULL ERROR IN CODE GEN!\n");
       }
       
-      decl.generateCode(file, null, null);
+      decl.generateCode(file, null, null, table);
     }
     
     //Set Main method

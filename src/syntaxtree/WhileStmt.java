@@ -16,12 +16,12 @@ public class WhileStmt extends Stmt {
   }
 
   @Override
-  public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc){
+      public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc, SymbolTable table){
     
     int startlabel = proc.addInstruction(new NOP()); // Create label here
     
     // Get exp on stack
-    exp.generateCode(file, null, proc);
+    exp.generateCode(file, null, proc, table);
     
     
     // This will get replaced with a proper jump instruction
@@ -30,7 +30,7 @@ public class WhileStmt extends Stmt {
     
     if(while_stmt != null){
 	    for(Stmt s : while_stmt){
-	      s.generateCode(file, null, proc);  
+		s.generateCode(file, null, proc, table);  
 		  }
 	  }
 	  
