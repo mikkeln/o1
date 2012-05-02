@@ -41,7 +41,15 @@ public class NameExp extends Exp{
 	if(e1 == null){ //No . reference
 	    if(proc != null){
 		System.out.println("NAME EXPRESSION FOR '" +  this.name + "' ");
-		proc.addInstruction(new LOADLOCAL(proc.variableNumber(name)));
+		int tester = proc.variableNumber(name);
+
+		if(tester != -1){
+		    proc.addInstruction(new LOADLOCAL(proc.variableNumber(name)));
+		    System.out.println("nameexptest: " + proc.variableNumber(name));
+		}else{
+		    proc.addInstruction(new LOADGLOBAL(file.globalVariableNumber(name)));
+		}
+
 		//proc.addInstruction(new STORELOCAL(proc.variableNumber(name)));
 	    }
 	}

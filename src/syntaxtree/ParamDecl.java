@@ -18,6 +18,7 @@ public class ParamDecl extends Decl {
 
     @Override
 	public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc, SymbolTable table){
+	System.out.println("PARAMDECL for " + name + " with type " + type);
 	
 	if(type.equals("float"))
 	    proc.addParameter(name, FloatType.TYPE);
@@ -27,10 +28,14 @@ public class ParamDecl extends Decl {
 	    proc.addParameter(name, BoolType.TYPE);
 	else if(type.equals("string"))
 	    proc.addParameter(name, StringType.TYPE);
-	else
+	else{
+	    int tester = proc.structNumber(type);
+	    System.out.println("param tester: " + tester);
+
 	    proc.addParameter(name, new RefType(proc.structNumber(type))); //or file.structNumber?
 
 
+	}
     }
 
 

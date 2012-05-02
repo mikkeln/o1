@@ -75,10 +75,13 @@ public class AssignStmt extends Stmt{
 
 	      System.out.println("structt name: " + structt.name + " sstruct type: " + structt.type);
 	      System.out.println("structName: " + structName + " varName: " + varname);
-	      int tester = proc.addInstruction(new LOADLOCAL(proc.variableNumber(structName)));
-	      System.out.println("tester: " + tester);
-
-
+	      int tester = proc.variableNumber(structName);
+	      if(tester != -1){
+		  proc.addInstruction(new LOADLOCAL(proc.variableNumber(structName)));
+		  System.out.println("tester: " + tester);
+	      }else{
+		  proc.addInstruction(new LOADGLOBAL(file.globalVariableNumber(structName)));
+	      }
 		  proc.addInstruction(new PUTFIELD(proc.fieldNumber(structt.type, varname), proc.structNumber(structt.type))); //How to get struct type?
 	  }
       } else { // Global scope = global variable
