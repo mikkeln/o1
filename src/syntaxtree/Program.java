@@ -3,6 +3,9 @@ import java.util.List;
 import bytecode.CodeFile;
 import bytecode.CodeProcedure;
 import bytecode.type.*;
+import bytecode.instructions.*;
+import bytecode.*;
+
 
 public class Program {
 	
@@ -17,19 +20,53 @@ public class Program {
   public void generateCode(CodeFile file) {
     System.out.println("MAKIN' BACON (Main program node)");
     
+    file.addProcedure("printfloat");
+    file.addProcedure("printstr");
+    file.addProcedure("printint");
+    file.addProcedure("printline");
+
     // Add libraries (I think this is how it's done...)
     CodeProcedure pstring = new CodeProcedure("printstr", VoidType.TYPE, file);
+    pstring.addParameter("s", StringType.TYPE);
     file.updateProcedure(pstring);
     
+
     CodeProcedure pline = new CodeProcedure("printline", VoidType.TYPE, file);
+    pline.addParameter("s", StringType.TYPE);
     file.updateProcedure(pline);
+
     
     CodeProcedure pint = new CodeProcedure("printint", VoidType.TYPE, file);
+    pint.addParameter("i", IntType.TYPE);
     file.updateProcedure(pint);
 
     CodeProcedure pfloat = new CodeProcedure("printfloat", VoidType.TYPE, file);
+    pfloat.addParameter("f", FloatType.TYPE);
     file.updateProcedure(pfloat);
+
+    file.addProcedure("readline");
+    file.addProcedure("readstr");
+    file.addProcedure("readfloat");
+    file.addProcedure("readint");
+    file.addProcedure("readchar");
     
+    CodeProcedure rline = new CodeProcedure("readline", StringType.TYPE, file);
+    file.updateProcedure(rline);
+
+    CodeProcedure rstr = new CodeProcedure("readstr", StringType.TYPE, file);
+    file.updateProcedure(rstr);
+
+    CodeProcedure rfloat = new CodeProcedure("readfloat", FloatType.TYPE, file);
+    file.updateProcedure(rfloat);
+
+    CodeProcedure rint = new CodeProcedure("readint", IntType.TYPE, file);
+    file.updateProcedure(rint);
+
+    CodeProcedure rchar = new CodeProcedure("readchar", IntType.TYPE, file);
+    file.updateProcedure(rchar);
+
+
+
     // Generate code for the whole program
     for (Decl decl : decls) {
       if (decl == null) { 
