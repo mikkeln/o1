@@ -29,7 +29,7 @@ public class AssignStmt extends Stmt{
       System.out.println("ASSIGN VARIABLE: varname: " + varname + " structname: " + var.gete1Name());
       
       // I really hope this value gets pushed to stack!
-   	      exp.generateCode(file, null, proc); 
+      exp.generateCode(file, null, proc, table); 
 
 
       if(proc != null){ //If proc is delivered, assume the assignstmt is in a procedure
@@ -38,7 +38,7 @@ public class AssignStmt extends Stmt{
 	      int crap = proc.addInstruction(new STORELOCAL(proc.variableNumber(varname)));
 	      //try to get type
 	      //proc.addInstruction(new PUSHSTRING(exp.getName()));
-	      	      System.out.println("SAAAAAAAAAAAAAAP " + varname + " crap : " + crap);
+	      // System.out.println("SAAAAAAAAAAAAAAP " + varname + " crap : " + crap);
 	  }else{
 	      SymbolTable structt = null;
 

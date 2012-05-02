@@ -28,7 +28,7 @@ public class OpExp extends Exp{
 
 
     @Override
-    public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc){
+	public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc, SymbolTable table){
 
 
 	if(opname.equals("NEW")){  
@@ -39,8 +39,8 @@ public class OpExp extends Exp{
 	}else if(opname.equals("ARIT_OP")){
 	    System.out.println("ARIT_OP EXPRESSION " + op);
 
-     	    e1.generateCode(file, null, proc);
-	    e2.generateCode(file, null, proc);
+     	    e1.generateCode(file, null, proc, table);
+	    e2.generateCode(file, null, proc, table);
 
 	    if(op.equals("+"))
 		proc.addInstruction(new ADD());
@@ -55,8 +55,8 @@ public class OpExp extends Exp{
 	}else if(opname.equals("REL_OP")){
 	    System.out.println("REL_OP EXPRESSION");
 
-     	    e1.generateCode(file, null, proc);
-	    e2.generateCode(file, null, proc);
+     	    e1.generateCode(file, null, proc, table);
+	    e2.generateCode(file, null, proc, table);
 
 	    if(op.equals("<"))
 		proc.addInstruction(new LT());
@@ -72,11 +72,6 @@ public class OpExp extends Exp{
 		proc.addInstruction(new EQ());
 
 	}
-
-
-
-
-
 
     }
 

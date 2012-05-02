@@ -21,7 +21,7 @@ public class WhileStmt extends Stmt {
     int startlabel = proc.addInstruction(new NOP()); // Create label here
     
     // Get exp on stack
-    exp.generateCode(file, null, proc);
+    exp.generateCode(file, null, proc, table);
     
     
     // This will get replaced with a proper jump instruction

@@ -36,7 +36,7 @@ public class NameExp extends Exp{
    }
 
     @Override
-	public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc){
+	public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc, SymbolTable table){
 
 	if(e1 == null){ //No . reference
 	    if(proc != null){
@@ -50,15 +50,20 @@ public class NameExp extends Exp{
 		System.out.println("NAME EXPRESSION FOR '" + this.name + "' WITH REFERENCE");
 		
 		String structName = e1.getName();
+
+		
+		SymbolTable tmp = table.searchThru(structName);
+
+		//System.out.println("NAMEEXP: " + structName + " " + tmp.type);
 		
 		proc.addInstruction(new LOADLOCAL(proc.variableNumber(structName))); //Add struct on top of stack
 		// doesnt work! -but should?
-		/*	proc.addInstruction(new GETFIELD(proc.fieldNumber(structName, name), 
-			proc.structNumber(structName))); //leaving the field value on the stack*/
-	    }
-	    
-	}
 
+
+		proc.addInstruction(new GETFIELD(proc.fieldNumber(tmp.type, name), 
+						 proc.structNumber(tmp.type))); //leaving the field value on the stack
+	    }   
+	}
     }
 
 

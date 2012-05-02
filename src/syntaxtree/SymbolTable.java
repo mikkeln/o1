@@ -2,6 +2,9 @@ package syntaxtree;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.HashMap;
+import java.util.Collection;
+import java.util.Iterator;
 
 public class SymbolTable{
 
@@ -81,6 +84,40 @@ public class SymbolTable{
 
 
 
+    public SymbolTable searchThru(String name){
+	//SymbolTable table;
+
+	SymbolTable structt = null;
+	
+	Collection c = this.entries.values();
+	Iterator it = c.iterator();
+	
+	Collection b;
+	Iterator itr;
+	
+	while(it.hasNext()){
+	    SymbolTable tmp = (SymbolTable)it.next();
+	    if(tmp.name.equals(name)){
+		return tmp;
+	    }else{
+		b = tmp.entries.values();
+		itr = b.iterator();
+		while(itr.hasNext()){
+		    SymbolTable crap = (SymbolTable)itr.next();
+		    if(crap.name.equals(name)){
+			return crap;
+		    }
+		}
+	    }
+	}
+	
+	return null;
+    }
+
+    
+
+
+
     /*Find entry in entire table*/
     public SymbolTable locate(String name){
 	int i;
@@ -89,8 +126,10 @@ public class SymbolTable{
 	SymbolTable tmp;
 
 	for(st = this; st != null; st = st.parent){
-	    if((tmp = (SymbolTable)entries.get(name)) != null)
+	    tmp = (SymbolTable)entries.get(name);
+	    if(tmp != null){
 		return tmp;
+	    }
 	}
 
 	return null;

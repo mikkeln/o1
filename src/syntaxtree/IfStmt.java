@@ -23,7 +23,7 @@ public class IfStmt extends Stmt {
     int jumpinstr1 = 0, jumpinstr2 = 0; // We might need 2 jump offsets.
     
     //Generate code for exp
-    exp.generateCode(file, null, proc);
+    exp.generateCode(file, null, proc, table);
 
     // NOTE: We expect true/false on stack after this! (do we need to generate it?)
     // We need a jump here if the expr is false, but it needs a value we don't 

@@ -10,7 +10,7 @@ public class Exp {
   }
   
 
-    public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc){
+    public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc, SymbolTable table){
 	System.out.println("OVERRIDE EXP YOU BASTARDS, FUCKIN' SNOW");
 
 
