@@ -35,7 +35,14 @@ public class AssignStmt extends Stmt{
       if(proc != null){ //If proc is delivered, assume the assignstmt is in a procedure
 	  // Store whatever is on stack to local variable varname
 	  if(structName.equals("")){
-	      int crap = proc.addInstruction(new STORELOCAL(proc.variableNumber(varname)));
+	      int bah = proc.variableNumber(varname);
+	      if(bah == -1){
+
+		  proc.addInstruction(new STOREGLOBAL(file.globalVariableNumber(varname)));
+		  
+	      }else{
+		  int crap = proc.addInstruction(new STORELOCAL(proc.variableNumber(varname)));
+	      }
 	      //try to get type
 	      //proc.addInstruction(new PUSHSTRING(exp.getName()));
 	      // System.out.println("SAAAAAAAAAAAAAAP " + varname + " crap : " + crap);
@@ -66,13 +73,17 @@ public class AssignStmt extends Stmt{
 		  }
 	      }
 
-	      System.out.println("structt: " + structt.name);
-	      System.out.println(structName + " " + varname);
-	      int tester = proc.addInstruction(new LOADLOCAL(proc.variableNumber(varname)));
+	      System.out.println("structt name: " + structt.name + " sstruct type: " + structt.type);
+	      System.out.println("structName: " + structName + " varName: " + varname);
+	      int tester = proc.addInstruction(new LOADLOCAL(proc.variableNumber(structName)));
+	      System.out.println("tester: " + tester);
 
-	      proc.addInstruction(new PUTFIELD(proc.fieldNumber(structt.type, varname), proc.structNumber(structt.type))); //How to get struct type?
+
+		  proc.addInstruction(new PUTFIELD(proc.fieldNumber(structt.type, varname), proc.structNumber(structt.type))); //How to get struct type?
 	  }
       } else { // Global scope = global variable
+	  System.out.println("ELSEEEEEEEEEEEE");
+
 	  // Not working!
 	  //file.addInstruction(new STOREGLOBAL(file.variableNumber(varname)));
       }
