@@ -32,15 +32,24 @@ public class AssignStmt extends Stmt{
       if(proc != null){ //If proc is delivered, assume the assignstmt is in a procedure
 	  // Store whatever is on stack to local variable varname
 	  if(structName.equals("")){
-	      System.out.println("SAAAAAAAAAAAAAAP " + varname);
-	      proc.addInstruction(new STORELOCAL(proc.variableNumber(varname)));
+	      int crap = proc.addInstruction(new STORELOCAL(proc.variableNumber(varname)));
+	      //try to get type
+	      //proc.addInstruction(new PUSHSTRING(exp.getName()));
+	      	      System.out.println("SAAAAAAAAAAAAAAP " + varname + " crap : " + crap);
 	  }else{
+
 	      System.out.println("WWWWWWWWWWTTTTTFFFFFFFFFFFF");
 	      System.out.println(structName + " " + varname);
 	      int tester = proc.addInstruction(new LOADLOCAL(proc.variableNumber(varname)));
 	      System.out.println("tester: " + tester);
+	      
+	      //String ss = proc.addInstruction(new PUSHSTRING);
+	      int index = proc.variableNumber(structName);
+	      
+	      // String varType = proc.variableTypes.get(index);
+	      System.out.println("IS GOOOOd?: " + index);
 
-	      proc.addInstruction(new PUTFIELD(proc.fieldNumber("Complex", varname), proc.structNumber("Complex"))); //How to get struct type!
+	      proc.addInstruction(new PUTFIELD(proc.fieldNumber("Complex", varname), proc.structNumber("Complex"))); //How to get struct type?
 	  }
       } else { // Global scope = global variable
 	  // Not working!

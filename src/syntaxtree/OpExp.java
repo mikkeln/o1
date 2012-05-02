@@ -21,8 +21,9 @@ public class OpExp extends Exp{
 
     @Override
     public String getName(){
-	return opname;
+	return op;
     }
+
 
 
 
@@ -30,11 +31,11 @@ public class OpExp extends Exp{
     public void generateCode(CodeFile file, CodeStruct struct, CodeProcedure proc){
 
 
-	if(opname.equals("NEW")){
-		System.out.println("NEW STRUCT " + op);    
-		proc.addInstruction(new NEW(proc.structNumber(op))); //Correct?
+	if(opname.equals("NEW")){  
+		int test = proc.addInstruction(new NEW(proc.structNumber(op))); //Correct?
 		//proc.addInstruction(new STORELOCAL(proc.variableNumber(opname)));
-
+		System.out.println("NEW STRUCT " + op + " test "+ test);  
+		
 	}else if(opname.equals("ARIT_OP")){
 	    System.out.println("ARIT_OP EXPRESSION " + op);
 
