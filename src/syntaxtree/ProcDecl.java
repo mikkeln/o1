@@ -74,7 +74,7 @@ public class ProcDecl extends Decl{
       //Add final return and update the file
       // RETURN VALUE NEEDS TO BE ON STACK?
       //if main?
-      //pro.addInstruction(new RETURN());
+      pro.addInstruction(new RETURN());
       file.updateProcedure(pro);
       
     }
